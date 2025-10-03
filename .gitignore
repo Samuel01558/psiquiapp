@@ -125,6 +125,7 @@ pids/
 # ============================================
 screenshots/
 screenshots-presentacion/
+screenshots-documento-final/
 mcp-analyzer/screenshots/
 playwright-report/
 test-results/
@@ -142,6 +143,7 @@ final-screenshots.js
 interactive-screenshots.js
 simple-screenshots.js
 capture-screenshots.js
+capturar-screenshots.js
 mobile-summary.js
 server-sqlite.js
 
