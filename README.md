@@ -2,7 +2,8 @@
 
 Sistema de gestion para profesionales de salud mental. Permite gestionar pacientes, citas, consultas, recetas medicas y aplicar tests psicologicos.
 
-![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg) ![MySQL](https://img.shields.io/badge/mysql-8.0-orange.svg) ![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg) ![MySQL](https://img.shields.io/badge/mysql-8.0-orange.svg) ![Version](https://img.shields.io/badge/version-1.0.1-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![express](https://img.shields.io/badge/express-%5E4.18.2-lightgrey.svg) ![bootstrap](https://img.shields.io/badge/bootstrap-5.3.3-purple.svg) ![security](https://img.shields.io/badge/security-high-red.svg)
+
 
 ## Caracteristicas
 
