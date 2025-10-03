@@ -195,6 +195,7 @@ async function loadPatients() {
         }
 
         const data = await response.json();
+        console.log('📊 Datos recibidos de /api/pacientes:', data);
         
         // Handle different response formats
         if (Array.isArray(data)) {
@@ -205,6 +206,11 @@ async function loadPatients() {
             currentPatients = data.data;
         } else {
             currentPatients = [];
+        }
+
+        console.log('👥 Pacientes procesados:', currentPatients.length);
+        if (currentPatients.length > 0) {
+            console.log('👤 Primer paciente:', currentPatients[0]);
         }
 
         // Update global variable for HTML compatibility
@@ -223,17 +229,44 @@ function populatePatientDropdowns() {
     const filterSelect = $('#filterPatient');
     const prescriptionSelect = $('#prescriptionPatient');
     
-    // Clear existing options except the first one
-    filterSelect.find('option:not(:first)').remove();
-    prescriptionSelect.find('option:not(:first)').remove();
+    // Clear ALL options and rebuild from scratch
+    filterSelect.empty();
+    prescriptionSelect.empty();
+    
+    // Add default option
+    const defaultOption = '<option value="">Seleccionar paciente...</option>';
+    filterSelect.append(defaultOption);
+    prescriptionSelect.append(defaultOption);
+
+    console.log('🔄 Poblando dropdowns con', currentPatients.length, 'pacientes');
 
     currentPatients.forEach(patient => {
-        const optionText = `${patient.nombre} ${patient.apellido}`;
+        console.log('👤 Procesando paciente:', patient);
+        console.log('   Claves del objeto:', Object.keys(patient));
+        
+        // Intentar múltiples variaciones de los nombres de campos
+        const nombre = patient.nombre || patient.Nombre || patient.NOMBRE || 
+                       patient.first_name || patient.firstName || '';
+        const apellido = patient.apellido || patient.Apellido || patient.APELLIDO || 
+                        patient.last_name || patient.lastName || '';
+        
+        console.log('   Nombre extraído:', nombre);
+        console.log('   Apellido extraído:', apellido);
+        
+        const optionText = `${nombre} ${apellido}`.trim() || `Paciente #${patient.id}`;
         const option = `<option value="${patient.id}">${optionText}</option>`;
         
         filterSelect.append(option);
         prescriptionSelect.append(option);
     });
+    
+    // Force refresh of select elements
+    filterSelect.trigger('change');
+    prescriptionSelect.trigger('change');
+    
+    console.log('✅ Dropdowns poblados correctamente');
+    console.log('   filterSelect options:', filterSelect.find('option').length);
+    console.log('   prescriptionSelect options:', prescriptionSelect.find('option').length);
 }
 
 // Filter and display prescriptions

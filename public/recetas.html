@@ -258,12 +258,10 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="addPrescriptionModalLabel">
-                        <i class="fas fa-prescription-bottle-alt mr-2"></i>
+                        <i class="fas fa-prescription-bottle-alt me-2"></i>
                         Nueva Receta Médica
                     </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addPrescriptionForm">
@@ -347,7 +345,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="savePrescription()">
                         <i class="fas fa-save mr-2"></i>
                         Guardar Receta
@@ -611,15 +609,26 @@
             const filterSelect = document.getElementById('filterPatient');
             const addSelect = document.getElementById('prescriptionPatient');
             
-            const options = patientsData.map(patient => 
-                `<option value="${patient.id}">${patient.name} ${patient.lastName}</option>`
-            ).join('');
+            console.log('🔄 loadPatientsDropdown llamada, pacientes:', patientsData.length);
+            
+            const options = patientsData.map(patient => {
+                // Intentar múltiples variaciones de nombres de campos
+                const nombre = patient.nombre || patient.name || patient.Nombre || '';
+                const apellido = patient.apellido || patient.lastName || patient.last_name || patient.Apellido || '';
+                const displayName = `${nombre} ${apellido}`.trim() || `Paciente #${patient.id}`;
+                
+                console.log('  👤 Mapeando:', patient.id, '-', displayName);
+                
+                return `<option value="${patient.id}">${displayName}</option>`;
+            }).join('');
             
             if (filterSelect) {
                 filterSelect.innerHTML = '<option value="">Todos los pacientes</option>' + options;
+                console.log('  ✅ filterSelect actualizado con', filterSelect.options.length, 'opciones');
             }
             if (addSelect) {
                 addSelect.innerHTML = '<option value="">Seleccionar paciente...</option>' + options;
+                console.log('  ✅ prescriptionPatient actualizado con', addSelect.options.length, 'opciones');
             }
         }
 
@@ -882,9 +891,7 @@
             alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
             alertDiv.innerHTML = `
                 ${message}
-                <button type="button" class="close" data-dismiss="alert">
-                    <span>&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             `;
             
             document.body.appendChild(alertDiv);

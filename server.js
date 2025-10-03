@@ -14,7 +14,21 @@ const PORT = process.env.PORT || 3000;
 // Configuración de rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100 // máximo 100 requests por ventana de tiempo
+  max: 500, // máximo 500 requests por ventana de tiempo (aumentado para desarrollo)
+  message: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo más tarde.',
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  // Skip rate limiting for static files
+  skip: (req) => {
+    return req.path.startsWith('/css/') || 
+           req.path.startsWith('/js/') || 
+           req.path.startsWith('/images/') ||
+           req.path.endsWith('.css') ||
+           req.path.endsWith('.js') ||
+           req.path.endsWith('.png') ||
+           req.path.endsWith('.jpg') ||
+           req.path.endsWith('.ico');
+  }
 });
 
 // Middlewares
