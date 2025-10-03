@@ -27,6 +27,7 @@ Sistema de gestion para profesionales de salud mental. Permite gestionar pacient
 - Node.js v18+
 - MySQL v8.0+
 
+
 ### Pasos
 
 ``bash
