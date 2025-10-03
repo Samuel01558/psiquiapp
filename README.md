@@ -26,7 +26,9 @@ Sistema de gestion para profesionales de salud mental. Permite gestionar pacient
 ### Requisitos
 - Node.js v18+
 - MySQL v8.0+
-
+- express v4.18.2+
+- bcryptjs v2.4.3+
+- bootstrap v5.3.3+
 
 ### Pasos
 
@@ -36,7 +38,7 @@ git clone https://github.com/Samuel01558/psiquiapp.git
 cd psiquiapp
 
 # 2. Instalar dependencias
-npm install
+ppnpm install
 
 # 3. Configurar .env
 cp .env.example .env
@@ -53,7 +55,7 @@ mysql -u root -p psiquiapp_db < database_setup.sql
 node create-admin.js
 
 # 6. Iniciar
-npm start
+pnpm start
 ``
 
 Aplicacion disponible en: http://localhost:3000
@@ -112,9 +114,7 @@ SESSION_SECRET=generar_clave_segura
 3. Responder preguntas
 4. Ver resultados
 
-## Soporte
 
-Issues: https://github.com/Samuel01558/psiquiapp/issues
 
 ## Licencia
 
