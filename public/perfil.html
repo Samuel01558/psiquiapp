@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - PsiquiApp</title>
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-custom-psiqui.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light d-lg-none me-2" type="button" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="fas fa-brain me-2"></i>
+                PsiquiApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%234A7C59'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E" class="rounded-circle me-2" alt="Doctor Avatar" id="doctorAvatar">
+                            <span id="doctorName" class="d-none d-sm-inline">Cargando...</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar bg-white shadow-sm">
+                <div class="sidebar-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th-list me-2"></i>
+                        MENÚ PRINCIPAL
+                    </h5>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large sidebar-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="pacientes.html" class="sidebar-link">
+                            <i class="fas fa-users sidebar-icon"></i>
+                            Pacientes
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="consultas.html" class="sidebar-link">
+                            <i class="fas fa-notes-medical sidebar-icon"></i>
+                            Consultas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="recetas.html" class="sidebar-link">
+                            <i class="fas fa-prescription-bottle-alt sidebar-icon"></i>
+                            Recetas Médicas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="dsm5.html" class="sidebar-link">
+                            <i class="fas fa-book sidebar-icon"></i>
+                            Guía DSM-5
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="cie10.html" class="sidebar-link">
+                            <i class="fas fa-clipboard-list sidebar-icon"></i>
+                            CIE-10
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="tests.html" class="sidebar-link">
+                            <i class="fas fa-clipboard-check sidebar-icon"></i>
+                            Test Psicométricos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Suspended Account Warning -->
+                <div id="suspendedWarning" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+                    <h4 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Cuenta Suspendida - Modo Solo Lectura
+                    </h4>
+                    <p class="mb-0">
+                        Su cuenta ha sido suspendida por el administrador. Puede visualizar su información 
+                        pero no podrá realizar modificaciones. Contacte al administrador para más información.
+                    </p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h2 class="page-title">
+                        <i class="fas fa-user-md"></i>
+                        Mi Perfil Profesional
+                    </h2>
+                    <p class="text-muted">Actualiza tu información personal y profesional</p>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="row">
+                    <!-- Profile Card -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' fill='%234A7C59'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='48' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E" class="rounded-circle" alt="Doctor Avatar" id="profileAvatar">
+                                </div>
+                                <h4 id="profileDoctorName">Dr. Admin</h4>
+                                <p class="text-muted mb-3" id="profileSpecialty">Psiquiatría</p>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary" onclick="changeAvatar()">
+                                        <i class="fas fa-camera me-2"></i>
+                                        Cambiar Foto
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="card shadow-sm mt-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-chart-line me-2"></i>
+                                    Estadísticas Rápidas
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span><i class="fas fa-users text-primary me-2"></i>Pacientes Activos</span>
+                                        <strong id="statPatients">-</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span><i class="fas fa-notes-medical text-success me-2"></i>Consultas Este Mes</span>
+                                        <strong id="statConsultas">-</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span><i class="fas fa-prescription text-info me-2"></i>Recetas Emitidas</span>
+                                        <strong id="statRecetas">-</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Form -->
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-edit me-2"></i>
+                                    Información Personal
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="profileForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombre" class="form-label">Nombre *</label>
+                                            <input type="text" class="form-control" id="nombre" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="apellido" class="form-label">Apellido *</label>
+                                            <input type="text" class="form-control" id="apellido" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Email *</label>
+                                            <input type="email" class="form-control" id="email" required readonly>
+                                            <small class="text-muted">El email no se puede modificar</small>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="telefono" class="form-label">Teléfono</label>
+                                            <input type="tel" class="form-control" id="telefono">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="especialidad" class="form-label">Especialidad *</label>
+                                            <select class="form-select" id="especialidad" required>
+                                                <option value="">Seleccionar...</option>
+                                                <option value="Psiquiatría">Psiquiatría</option>
+                                                <option value="Psiquiatría Infantil">Psiquiatría Infantil</option>
+                                                <option value="Psiquiatría Geriátrica">Psiquiatría Geriátrica</option>
+                                                <option value="Psicología Clínica">Psicología Clínica</option>
+                                                <option value="Neuropsiquiatría">Neuropsiquiatría</option>
+                                                <option value="Otra">Otra</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="numeroLicencia" class="form-label">Número de Licencia</label>
+                                            <input type="text" class="form-control" id="numeroLicencia">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="direccion" class="form-label">Dirección del Consultorio</label>
+                                        <input type="text" class="form-control" id="direccion">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="biografia" class="form-label">Biografía Profesional</label>
+                                        <textarea class="form-control" id="biografia" rows="4" placeholder="Describe tu experiencia y áreas de enfoque..."></textarea>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button type="button" class="btn btn-secondary" onclick="window.location.reload()">
+                                            <i class="fas fa-undo me-2"></i>
+                                            Cancelar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>
+                                            Guardar Cambios
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Change Password Section -->
+                        <div class="card shadow-sm mt-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-key me-2"></i>
+                                    Cambiar Contraseña
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="passwordForm">
+                                    <div class="mb-3">
+                                        <label for="currentPassword" class="form-label">Contraseña Actual *</label>
+                                        <input type="password" class="form-control" id="currentPassword" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="newPassword" class="form-label">Nueva Contraseña *</label>
+                                        <input type="password" class="form-control" id="newPassword" required minlength="6">
+                                        <small class="text-muted">Mínimo 6 caracteres</small>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña *</label>
+                                        <input type="password" class="form-control" id="confirmPassword" required>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-warning">
+                                            <i class="fas fa-lock me-2"></i>
+                                            Cambiar Contraseña
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong class="me-auto">Notificación</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                Mensaje aquí
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        let isSuspended = false;
+
+        // Load doctor profile
+        async function loadProfile() {
+            try {
+                const response = await fetch('/api/doctor/profile', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    throw new Error('Error al cargar perfil');
+                }
+
+                const data = await response.json();
+                if (data.success && data.doctor) {
+                    const doctor = data.doctor;
+                    
+                    // Check if suspended
+                    isSuspended = doctor.suspended || (doctor.activo === false && !doctor.is_admin);
+                    if (isSuspended) {
+                        showSuspendedWarning();
+                        disableProfileForm();
+                    }
+                    
+                    // Update form fields
+                    document.getElementById('nombre').value = doctor.nombre || '';
+                    document.getElementById('apellido').value = doctor.apellido || '';
+                    document.getElementById('email').value = doctor.email || '';
+                    document.getElementById('telefono').value = doctor.telefono || '';
+                    document.getElementById('especialidad').value = doctor.especialidad || '';
+                    document.getElementById('numeroLicencia').value = doctor.numero_licencia || '';
+                    document.getElementById('direccion').value = doctor.direccion || '';
+                    document.getElementById('biografia').value = doctor.biografia || '';
+
+                    // Update display name
+                    const fullName = `Dr. ${doctor.nombre} ${doctor.apellido}`;
+                    document.getElementById('doctorName').textContent = fullName;
+                    document.getElementById('profileDoctorName').textContent = fullName;
+                    document.getElementById('profileSpecialty').textContent = doctor.especialidad || 'Psiquiatría';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al cargar el perfil', 'error');
+            }
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/dashboard/stats', {
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        document.getElementById('statPatients').textContent = data.stats.pacientesActivos || 0;
+                        document.getElementById('statConsultas').textContent = data.stats.consultasEsteMes || 0;
+                        document.getElementById('statRecetas').textContent = data.stats.recetasEmitidas || 0;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Save profile
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                nombre: document.getElementById('nombre').value.trim(),
+                apellido: document.getElementById('apellido').value.trim(),
+                telefono: document.getElementById('telefono').value.trim(),
+                especialidad: document.getElementById('especialidad').value,
+                numero_licencia: document.getElementById('numeroLicencia').value.trim(),
+                direccion: document.getElementById('direccion').value.trim(),
+                biografia: document.getElementById('biografia').value.trim()
+            };
+
+            try {
+                const response = await fetch('/api/doctor/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showToast('Perfil actualizado exitosamente', 'success');
+                    loadProfile(); // Reload profile
+                } else {
+                    showToast(result.message || 'Error al actualizar perfil', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al guardar cambios', 'error');
+            }
+        });
+
+        // Change password
+        document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                showToast('Las contraseñas no coinciden', 'error');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showToast('La contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/doctor/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        currentPassword,
+                        newPassword
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showToast('Contraseña actualizada exitosamente', 'success');
+                    document.getElementById('passwordForm').reset();
+                } else {
+                    showToast(result.message || 'Error al cambiar contraseña', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al cambiar contraseña', 'error');
+            }
+        });
+
+        function changeAvatar() {
+            showToast('Funcionalidad de cambio de avatar próximamente', 'info');
+        }
+
+        function showToast(message, type = 'info') {
+            const toastEl = document.getElementById('notificationToast');
+            const toastBody = document.getElementById('toastMessage');
+            const toast = new bootstrap.Toast(toastEl);
+            
+            toastBody.textContent = message;
+            
+            // Change color based on type
+            toastEl.classList.remove('bg-success', 'bg-danger', 'bg-info', 'bg-warning');
+            if (type === 'success') toastEl.classList.add('bg-success', 'text-white');
+            else if (type === 'error') toastEl.classList.add('bg-danger', 'text-white');
+            else if (type === 'warning') toastEl.classList.add('bg-warning');
+            else toastEl.classList.add('bg-info', 'text-white');
+            
+            toast.show();
+        }
+
+        // Show suspended warning
+        function showSuspendedWarning() {
+            const warning = document.getElementById('suspendedWarning');
+            if (warning) {
+                warning.style.display = 'block';
+            }
+        }
+
+        // Disable profile form for suspended users
+        function disableProfileForm() {
+            // Disable all form inputs
+            const form = document.getElementById('profileForm');
+            if (form) {
+                const inputs = form.querySelectorAll('input, textarea, select, button[type="submit"]');
+                inputs.forEach(input => {
+                    input.disabled = true;
+                    if (input.tagName === 'BUTTON') {
+                        input.title = 'Función deshabilitada - Cuenta suspendida';
+                    }
+                });
+            }
+
+            // Disable password form
+            const passwordForm = document.getElementById('passwordForm');
+            if (passwordForm) {
+                const inputs = passwordForm.querySelectorAll('input, button[type="submit"]');
+                inputs.forEach(input => {
+                    input.disabled = true;
+                    if (input.tagName === 'BUTTON') {
+                        input.title = 'Función deshabilitada - Cuenta suspendida';
+                    }
+                });
+            }
+
+            // Add message to save buttons
+            const saveButtons = document.querySelectorAll('button[type="submit"]');
+            saveButtons.forEach(btn => {
+                btn.innerHTML = '<i class="fas fa-lock me-2"></i>Formulario Bloqueado';
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+            });
+        }
+
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('show');
+        });
+
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+            loadStats();
+        });
+    </script>
+</body>
+</html>

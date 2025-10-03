@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - PsiquiApp</title>
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-custom-psiqui.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light d-lg-none me-2" type="button" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="fas fa-brain me-2"></i>
+                PsiquiApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%234A7C59'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E" class="rounded-circle me-2" alt="Doctor Avatar" id="doctorAvatar">
+                            <span id="doctorName" class="d-none d-sm-inline">Cargando...</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                            <li><a class="dropdown-item active" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar bg-white shadow-sm">
+                <div class="sidebar-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th-list me-2"></i>
+                        MENÚ PRINCIPAL
+                    </h5>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large sidebar-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="pacientes.html" class="sidebar-link">
+                            <i class="fas fa-users sidebar-icon"></i>
+                            Pacientes
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="consultas.html" class="sidebar-link">
+                            <i class="fas fa-notes-medical sidebar-icon"></i>
+                            Consultas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="recetas.html" class="sidebar-link">
+                            <i class="fas fa-prescription-bottle-alt sidebar-icon"></i>
+                            Recetas Médicas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="dsm5.html" class="sidebar-link">
+                            <i class="fas fa-book sidebar-icon"></i>
+                            Guía DSM-5
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="cie10.html" class="sidebar-link">
+                            <i class="fas fa-clipboard-list sidebar-icon"></i>
+                            CIE-10
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="tests.html" class="sidebar-link">
+                            <i class="fas fa-clipboard-check sidebar-icon"></i>
+                            Test Psicométricos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Suspended Account Warning -->
+                <div id="suspendedWarning" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+                    <h4 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Cuenta Suspendida - Modo Solo Lectura
+                    </h4>
+                    <p class="mb-0">
+                        Su cuenta ha sido suspendida por el administrador. Puede visualizar la configuración 
+                        pero no podrá realizar modificaciones. Contacte al administrador para más información.
+                    </p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h2 class="page-title">
+                        <i class="fas fa-cog"></i>
+                        Configuración del Sistema
+                    </h2>
+                    <p class="text-muted">Personaliza tu experiencia en PsiquiApp</p>
+                </div>
+
+                <!-- Settings Content -->
+                <div class="row">
+                    <!-- System Preferences -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-sliders-h me-2"></i>
+                                    Preferencias del Sistema
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Tema de Interfaz:</strong> Claro
+                                    <p class="mb-0 mt-2 small">El tema de la interfaz está optimizado para profesionales de la salud y no puede ser modificado.</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="languageSelect" class="form-label">Idioma</label>
+                                    <select class="form-select" id="languageSelect" disabled>
+                                        <option value="es" selected>Español</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                    <small class="text-muted">Próximamente disponible</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-bell me-2"></i>
+                                    Notificaciones
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                    <label class="form-check-label" for="emailNotifications">
+                                        Notificaciones por Email
+                                    </label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="appointmentReminders" checked>
+                                    <label class="form-check-label" for="appointmentReminders">
+                                        Recordatorios de Citas
+                                    </label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="newPatientAlerts" checked>
+                                    <label class="form-check-label" for="newPatientAlerts">
+                                        Alertas de Nuevos Pacientes
+                                    </label>
+                                </div>
+                                <small class="text-muted">Las notificaciones están en desarrollo</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Privacidad y Seguridad
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="twoFactorAuth">
+                                    <label class="form-check-label" for="twoFactorAuth">
+                                        Autenticación de Dos Factores
+                                    </label>
+                                    <small class="text-muted d-block">Próximamente disponible</small>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="sessionTimeout" checked>
+                                    <label class="form-check-label" for="sessionTimeout">
+                                        Cerrar Sesión Automáticamente
+                                    </label>
+                                    <small class="text-muted d-block">Después de 30 minutos de inactividad</small>
+                                </div>
+                                <hr>
+                                <button class="btn btn-outline-primary btn-sm w-100" onclick="viewActivityLog()">
+                                    <i class="fas fa-history me-2"></i>
+                                    Ver Registro de Actividad
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Management -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-database me-2"></i>
+                                    Gestión de Datos
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Respaldo de Datos</label>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-success" onclick="exportData()">
+                                            <i class="fas fa-download me-2"></i>
+                                            Exportar Todos los Datos
+                                        </button>
+                                        <button class="btn btn-outline-primary" onclick="scheduleBackup()">
+                                            <i class="fas fa-clock me-2"></i>
+                                            Programar Respaldo Automático
+                                        </button>
+                                    </div>
+                                    <small class="text-muted d-block mt-2">Último respaldo: Nunca</small>
+                                </div>
+                                <hr>
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Eliminación de Cuenta Deshabilitada</strong>
+                                    <p class="mb-0 mt-2">Por políticas de seguridad y protección de datos médicos, las cuentas no pueden ser eliminadas por el usuario. Contacte al administrador si necesita gestionar su cuenta.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Info -->
+                    <div class="col-12 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Información del Sistema
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Versión:</strong> 2.0.4</p>
+                                        <p><strong>Usuario:</strong> <span id="userEmail">-</span></p>
+                                        <p><strong>Plan:</strong> Profesional</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Último Acceso:</strong> <span id="lastLogin">-</span></p>
+                                        <p><strong>Espacio Usado:</strong> 245 MB / 10 GB</p>
+                                        <p><strong>Estado:</strong> <span class="badge bg-success">Activo</span></p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-0"><small class="text-muted">
+                                            © 2025 PsiquiApp. Todos los derechos reservados.
+                                        </small></p>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-question-circle me-1"></i>
+                                            Ayuda
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-book me-1"></i>
+                                            Documentación
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong class="me-auto">Notificación</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                Mensaje aquí
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        let isSuspended = false;
+
+        // Load doctor info
+        async function loadDoctorInfo() {
+            try {
+                const response = await fetch('/api/doctor/profile', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    throw new Error('Error al cargar perfil');
+                }
+
+                const data = await response.json();
+                if (data.success && data.doctor) {
+                    const doctor = data.doctor;
+                    const fullName = `Dr. ${doctor.nombre} ${doctor.apellido}`;
+                    document.getElementById('doctorName').textContent = fullName;
+                    document.getElementById('userEmail').textContent = doctor.email;
+                    
+                    // Set last login (mock for now)
+                    document.getElementById('lastLogin').textContent = new Date().toLocaleString('es-ES');
+
+                    // Check if suspended
+                    isSuspended = doctor.suspended || (doctor.activo === false && !doctor.is_admin);
+                    if (isSuspended) {
+                        showSuspendedWarning();
+                        disableConfigurationOptions();
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Show suspended warning
+        function showSuspendedWarning() {
+            const warning = document.getElementById('suspendedWarning');
+            if (warning) {
+                warning.style.display = 'block';
+            }
+        }
+
+        // Disable configuration options for suspended users
+        function disableConfigurationOptions() {
+            // Disable all checkboxes and buttons
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = true;
+            });
+
+            const buttons = document.querySelectorAll('.btn:not(.btn-close)');
+            buttons.forEach(button => {
+                if (!button.getAttribute('onclick')?.includes('logout')) {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                    button.title = 'Función deshabilitada - Cuenta suspendida';
+                }
+            });
+        }
+
+        function viewActivityLog() {
+            showToast('Registro de actividad próximamente disponible', 'info');
+        }
+
+        function exportData() {
+            showToast('Función de exportación en desarrollo', 'info');
+        }
+
+        function scheduleBackup() {
+            showToast('Respaldo automático próximamente disponible', 'info');
+        }
+
+        function showToast(message, type = 'info') {
+            const toastEl = document.getElementById('notificationToast');
+            const toastBody = document.getElementById('toastMessage');
+            const toast = new bootstrap.Toast(toastEl);
+            
+            toastBody.textContent = message;
+            
+            // Change color based on type
+            toastEl.classList.remove('bg-success', 'bg-danger', 'bg-info', 'bg-warning');
+            if (type === 'success') toastEl.classList.add('bg-success', 'text-white');
+            else if (type === 'error') toastEl.classList.add('bg-danger', 'text-white');
+            else if (type === 'warning') toastEl.classList.add('bg-warning');
+            else toastEl.classList.add('bg-info', 'text-white');
+            
+            toast.show();
+        }
+
+        // Save settings on change
+        document.querySelectorAll('input[type="checkbox"], select').forEach(element => {
+            element.addEventListener('change', function() {
+                // In a real implementation, this would save to the database
+                showToast('Configuración guardada', 'success');
+            });
+        });
+
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('show');
+        });
+
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDoctorInfo();
+        });
+    </script>
+</body>
+</html>

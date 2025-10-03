@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Funciones Ver/Editar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3>🧪 Test: Funciones Ver y Editar</h3>
+            </div>
+            <div class="card-body">
+                <h5>Prueba de Funciones de Pacientes</h5>
+                <p>Haz clic en los botones para probar las funciones:</p>
+                
+                <div class="btn-group mb-3" role="group">
+                    <button onclick="viewPaciente(23)" class="btn btn-info">
+                        👁️ Ver Paciente #23
+                    </button>
+                    <button onclick="editPaciente(23)" class="btn btn-warning">
+                        ✏️ Editar Paciente #23
+                    </button>
+                    <button onclick="deletePaciente(23)" class="btn btn-danger">
+                        🗑️ Eliminar Paciente #23
+                    </button>
+                </div>
+                
+                <hr>
+                
+                <h5>Prueba de Funciones de Citas</h5>
+                <div class="btn-group mb-3" role="group">
+                    <button onclick="viewCita(1)" class="btn btn-info">
+                        👁️ Ver Cita #1
+                    </button>
+                    <button onclick="editCita(1)" class="btn btn-warning">
+                        ✏️ Editar Cita #1
+                    </button>
+                    <button onclick="deleteCita(1)" class="btn btn-danger">
+                        🗑️ Eliminar Cita #1
+                    </button>
+                </div>
+                
+                <hr>
+                
+                <h5>Consola del Navegador</h5>
+                <p class="text-muted">Abre la consola del navegador (F12) para ver los mensajes de debug.</p>
+                <div id="consoleOutput" class="alert alert-secondary" style="font-family: monospace; font-size: 12px;">
+                    Esperando eventos...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alert Container -->
+        <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/dashboard.js?v=2.0.3"></script>
+    
+    <script>
+        // Capturar logs de consola y mostrarlos
+        const consoleOutput = document.getElementById('consoleOutput');
+        const originalLog = console.log;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleOutput.innerHTML += args.join(' ') + '<br>';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        console.log('✅ Página de prueba cargada');
+        console.log('✅ Esperando interacción del usuario...');
+    </script>
+</body>
+</html>

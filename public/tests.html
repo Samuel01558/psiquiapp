@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Psicométricos - PsiquiApp</title>
+    
+    <!-- Bootstrap 5.3.0 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Animate.css para animaciones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/bootstrap-custom-psiqui.css" rel="stylesheet">
+    
+    <!-- Estilos personalizados para el cuestionario -->
+    <style>
+        .test-header {
+            background: linear-gradient(135deg, var(--bs-info), var(--bs-primary)) !important;
+        }
+        
+        .question-card {
+            margin-bottom: 2rem;
+        }
+        
+        .option-item .form-check-input {
+            margin-top: 1.5rem;
+            transform: scale(1.2);
+        }
+        
+        .option-content {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef !important;
+        }
+        .option-content:hover {
+            border-color: var(--psiqui-primary) !important;
+            background: var(--psiqui-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .form-check-input:checked + .form-check-label .option-content {
+            border-color: var(--psiqui-primary) !important;
+            background: var(--psiqui-light);
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.25);
+        }
+        .form-check-input:checked {
+            background-color: var(--psiqui-primary);
+            border-color: var(--psiqui-primary);
+        }
+        
+        .btn {
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .progress-bar {
+            transition: width 0.6s ease;
+        }
+        
+        .alert-sm {
+            font-size: 0.875rem;
+        }
+        
+        /* Estilos para posicionamiento superior del test */
+        #testInterface, #testResults {
+            z-index: 1000;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+        
+        /* Mejorar la visibilidad del test en la parte superior */
+        .test-container {
+            background: var(--psiqui-gradient-calm);
+            min-height: 100vh;
+            padding-top: 2rem;
+        }
+        
+        /* Espaciado mejorado para el cuestionario */
+        .question-card {
+            margin-bottom: 3rem;
+        }
+        
+        .test-header {
+            margin-bottom: 3rem !important;
+        }
+        
+        #questionContainer {
+            margin-bottom: 2rem !important;
+        }
+        
+        @media (max-width: 768px) {
+            .test-header .col-md-4 {
+                margin-top: 1rem;
+                text-align: center !important;
+            }
+            
+            .btn-lg {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .test-container {
+                padding-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="fas fa-brain me-2"></i>
+                PsiquiApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%234A7C59'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E" class="rounded-circle me-2" alt="Doctor Avatar" id="doctorAvatar">
+                            <span id="doctorName" class="d-none d-sm-inline">Dr. Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Interfaces para Tests - Posicionado en la parte superior -->
+    <div id="testInterface" class="container-fluid test-container" style="display:none;">
+        <div class="row justify-content-center py-5" style="padding-top: 4rem !important;">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div class="d-flex justify-content-between align-items-center mb-5" style="margin-top: 2rem;">
+                    <button class="btn btn-lg shadow-sm" onclick="psychometricManager.returnToLibrary()" 
+                            style="background: var(--psiqui-primary); border-color: var(--psiqui-primary); color: white;">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Volver a Tests
+                    </button>
+                    <div class="badge fs-6 px-3 py-2" style="background: var(--psiqui-success); color: white;">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        Evaluación Profesional
+                    </div>
+                </div>
+                <div id="testHeader" class="mb-5"></div>
+                <div id="questionContainer" class="mb-5"></div>
+                <div id="testNavigation" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resultados del Test - Posicionado en la parte superior -->
+    <div id="testResults" class="container-fluid test-container" style="display:none;">
+        <div class="row justify-content-center py-4">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div id="resultsContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar bg-white shadow-sm">
+                <div class="sidebar-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th-list me-2" aria-hidden="true"></i>
+                        MENÚ PRINCIPAL
+                    </h5>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large sidebar-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="pacientes.html" class="sidebar-link">
+                            <i class="fas fa-users sidebar-icon"></i>
+                            Pacientes
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="consultas.html" class="sidebar-link">
+                            <i class="fas fa-notes-medical sidebar-icon"></i>
+                            Consultas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="recetas.html" class="sidebar-link">
+                            <i class="fas fa-prescription-bottle-alt sidebar-icon"></i>
+                            Recetas Médicas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="dsm5.html" class="sidebar-link">
+                            <i class="fas fa-book sidebar-icon"></i>
+                            Guía DSM-5
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="cie10.html" class="sidebar-link">
+                            <i class="fas fa-clipboard-list sidebar-icon"></i>
+                            CIE-10
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="tests.html" class="sidebar-link active">
+                            <i class="fas fa-clipboard-check sidebar-icon"></i>
+                            Test Psicométricos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center py-3 mb-4 border-bottom">
+                    <h1 class="h3 mb-0 text-primary">
+                        <i class="fas fa-clipboard-check me-2"></i>
+                        Test Psicométricos y Escalas de Evaluación
+                    </h1>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#newTestModal">
+                            <i class="fas fa-plus me-1"></i>
+                            Nuevo Test
+                        </button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#historyModal">
+                            <i class="fas fa-history me-1"></i>
+                            Historial
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0" 
+                                   placeholder="Buscar test, escala o instrumento..." id="searchInput">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="categoryFilter">
+                            <option value="">Todas las categorías</option>
+                            <option value="depression">Depresión</option>
+                            <option value="anxiety">Ansiedad</option>
+                            <option value="cognition">Función Cognitiva</option>
+                            <option value="personality">Personalidad</option>
+                            <option value="psychosis">Psicosis</option>
+                            <option value="addiction">Adicciones</option>
+                            <option value="eating">Trastornos Alimentarios</option>
+                            <option value="trauma">Trauma y TEPT</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="typeFilter">
+                            <option value="">Todos los tipos</option>
+                            <option value="screening">Screening/Cribado</option>
+                            <option value="diagnostic">Diagnóstico</option>
+                            <option value="severity">Severidad</option>
+                            <option value="followup">Seguimiento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Test Categories -->
+                <div id="testsLibrary">
+                <div class="row" id="testCategories">
+                    <!-- Escalas de Depresión -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle bg-info-subtle me-3">
+                                        <i class="fas fa-cloud-rain text-info"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Escalas de Depresión</h5>
+                                </div>
+                                <p class="card-text text-muted small mb-3">
+                                    PHQ-9, Beck Depression Inventory, Hamilton Depression Scale
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-info-subtle text-info">3 escalas</span>
+                                    <button class="btn btn-sm btn-outline-info" onclick="showCategory('depression')">
+                                        Ver escalas
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Escalas de Ansiedad -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle bg-warning-subtle me-3">
+                                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Escalas de Ansiedad</h5>
+                                </div>
+                                <p class="card-text text-muted small mb-3">
+                                    GAD-7, Beck Anxiety Inventory, Hamilton Anxiety Scale
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-warning-subtle text-warning">3 escalas</span>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="showCategory('anxiety')">
+                                        Ver escalas
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test Cognitivos -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle bg-primary-subtle me-3">
+                                        <i class="fas fa-brain text-primary"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Función Cognitiva</h5>
+                                </div>
+                                <p class="card-text text-muted small mb-3">
+                                    MMSE, MoCA, Clock Drawing Test, Trail Making Test
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-primary-subtle text-primary">4 test</span>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="showCategory('cognition')">
+                                        Ver test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test de Personalidad -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle bg-success-subtle me-3">
+                                        <i class="fas fa-user-friends text-success"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Test de Personalidad</h5>
+                                </div>
+                                <p class="card-text text-muted small mb-3">
+                                    Big Five Inventory (44 ítems) - Evaluación completa de personalidad
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-success-subtle text-success">1 test</span>
+                                    <button class="btn btn-sm btn-outline-success" onclick="showCategory('personality')">
+                                        Ver test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Escalas de Psicosis -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle bg-secondary-subtle me-3">
+                                        <i class="fas fa-user-slash text-secondary"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Escalas de Psicosis</h5>
+                                </div>
+                                <p class="card-text text-muted small mb-3">
+                                    PANSS - Evaluación comprensiva de síntomas psicóticos (30 ítems)
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-secondary-subtle text-secondary">1 escala</span>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="showCategory('psychosis')">
+                                        Ver escalas
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test de Adicciones -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle bg-danger-subtle me-3">
+                                        <i class="fas fa-pills text-danger"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Test de Adicciones</h5>
+                                </div>
+                                <p class="card-text text-muted small mb-3">
+                                    AUDIT, DAST-10, CAGE, Michigan Alcoholism
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-danger-subtle text-danger">4 test</span>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="showCategory('addiction')">
+                                        Ver test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Most Used Tests -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h4 class="mb-3">Test Más Utilizados</h4>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title mb-1">PHQ-9</h6>
+                                        <p class="card-text small text-muted mb-0">Cuestionario de Salud del Paciente para Depresión</p>
+                                        <small class="text-success">9 preguntas • 5-10 min</small>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary" onclick="startTest('phq9')">
+                                        Aplicar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title mb-1">GAD-7</h6>
+                                        <p class="card-text small text-muted mb-0">Escala de Ansiedad Generalizada</p>
+                                        <small class="text-success">7 preguntas • 3-5 min</small>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary" onclick="startTest('gad7')">
+                                        Aplicar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title mb-1">MMSE</h6>
+                                        <p class="card-text small text-muted mb-0">Mini Mental State Examination</p>
+                                        <small class="text-success">30 puntos • 10-15 min</small>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary" onclick="startTest('mini_mental')">
+                                        Aplicar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Tools -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h4 class="mb-3">Herramientas</h4>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card border-0 bg-primary-subtle">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calculator fa-2x text-primary mb-2"></i>
+                                <h6 class="card-title">Calculadora de Puntajes</h6>
+                                <button class="btn btn-sm btn-primary" onclick="openCalculator()">
+                                    Calcular
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card border-0 bg-secondary-subtle">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-bar fa-2x text-secondary mb-2"></i>
+                                <h6 class="card-title">Interpretación</h6>
+                                <button class="btn btn-sm btn-secondary" onclick="openInterpretation()">
+                                    Interpretar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card border-0 bg-warning-subtle">
+                            <div class="card-body text-center">
+                                <i class="fas fa-download fa-2x text-warning mb-2"></i>
+                                <h6 class="card-title">Descargar PDF</h6>
+                                <button class="btn btn-sm btn-warning" onclick="downloadTest()">
+                                    Descargar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card border-0 bg-info-subtle">
+                            <div class="card-body text-center">
+                                <i class="fas fa-file-export fa-2x text-info mb-2"></i>
+                                <h6 class="card-title">Exportar Resultados</h6>
+                                <button class="btn btn-sm btn-info" onclick="exportResults()">
+                                    Exportar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Test Modal -->
+    <div class="modal fade" id="newTestModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus me-2"></i>
+                        Aplicar Nuevo Test
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Paciente:</label>
+                            <select class="form-select">
+                                <option value="">Seleccionar paciente</option>
+                                <option value="1">Juan Pérez</option>
+                                <option value="2">María García</option>
+                                <option value="3">Carlos López</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Test/Escala:</label>
+                            <select class="form-select">
+                                <option value="">Seleccionar test</option>
+                                <option value="phq9">PHQ-9 - Depresión</option>
+                                <option value="gad7">GAD-7 - Ansiedad</option>
+                                <option value="mmse">MMSE - Función Cognitiva</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Motivo de la evaluación:</label>
+                        <textarea class="form-control" rows="3" placeholder="Describir el motivo..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Iniciar Test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="modal fade" id="historyModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-history me-2"></i>
+                        Historial de Test Aplicados
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Paciente</th>
+                                    <th>Test</th>
+                                    <th>Puntaje</th>
+                                    <th>Interpretación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15/03/2024</td>
+                                    <td>Juan Pérez</td>
+                                    <td>PHQ-9</td>
+                                    <td><span class="badge bg-warning">12</span></td>
+                                    <td>Depresión moderada</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>12/03/2024</td>
+                                    <td>María García</td>
+                                    <td>GAD-7</td>
+                                    <td><span class="badge bg-danger">15</span></td>
+                                    <td>Ansiedad severa</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Functional Tests Manager -->
+    <script src="/js/psychometric-tests.js"></script>
+
+    <!-- Demo hook: ?demo=phq9 auto-inicia y contesta con valores medios -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const demo = params.get('demo');
+            if (demo && window.psychometricManager) {
+                try {
+                    const testId = demo === '1' ? 'phq9' : demo; // demo=1 -> phq9 por defecto
+                    window.psychometricManager.startTest(testId);
+                    // Pequeña espera para que se renderice la primera pregunta
+                    setTimeout(() => {
+                        const test = window.psychometricManager.currentTest;
+                        if (!test) return;
+                        // Responder con el segundo valor (1) por defecto para todas las preguntas
+                        const answerAndAdvance = (index) => {
+                            if (index >= test.questions.length) {
+                                window.psychometricManager.finishTest();
+                                return;
+                            }
+                            const q = test.questions[index];
+                            const input = document.querySelector(`input[name="question_${q.id}"]`);
+                            const radios = document.querySelectorAll(`input[name="question_${q.id}"]`);
+                            if (radios && radios.length) {
+                                // Selecciona opción media si existe; si no, la primera
+                                const mid = Math.min(1, radios.length - 1);
+                                radios[mid].click();
+                            }
+                            // Avanzar a la siguiente pregunta
+                            window.psychometricManager.nextQuestion();
+                            setTimeout(() => answerAndAdvance(index + 1), 50);
+                        };
+                        answerAndAdvance(0);
+                    }, 50);
+                } catch (e) {
+                    console.warn('Demo de tests no pudo ejecutarse:', e);
+                }
+            }
+        });
+    </script>
+
+    <!-- Wrappers para compatibilidad con botones inline existentes -->
+    <script>
+        function startTest(testType) {
+            if (window.psychometricManager) {
+                window.psychometricManager.startTest(testType);
+            }
+        }
+        function openCalculator() { 
+            if (window.psychometricManager) {
+                window.psychometricManager.openCalculator();
+            } else {
+                showAlert('Sistema de tests no está inicializado. Recargue la página.', 'error');
+            }
+        }
+        
+        function openInterpretation() { 
+            if (window.psychometricManager) {
+                window.psychometricManager.openInterpretation();
+            } else {
+                showAlert('Sistema de tests no está inicializado. Recargue la página.', 'error');
+            }
+        }
+        
+        function downloadTest() { 
+            if (window.psychometricManager) {
+                window.psychometricManager.downloadTestPDF();
+            } else {
+                showAlert('Sistema de tests no está inicializado. Recargue la página.', 'error');
+            }
+        }
+        
+        function exportResults() { 
+            if (window.psychometricManager) {
+                window.psychometricManager.exportResults();
+            } else {
+                showAlert('Sistema de tests no está inicializado. Recargue la página.', 'error');
+            }
+        }
+        
+        // Enhanced category functionality
+        function showCategory(category) {
+            console.info('Categoría seleccionada:', category);
+            
+            const categoryTests = {
+                depression: [
+                    { id: 'phq9', name: 'PHQ-9 - Cuestionario de Salud del Paciente', description: 'Evaluación de síntomas depresivos en las últimas 2 semanas', items: 9 },
+                    { id: 'beck_depression', name: 'BDI-II - Inventario de Depresión de Beck', description: 'Evaluación detallada de síntomas depresivos', items: 21 },
+                    { id: 'hamilton_depression', name: 'Escala de Depresión de Hamilton (HAM-D)', description: 'Evaluación clínica de la severidad de la depresión', items: 17 }
+                ],
+                anxiety: [
+                    { id: 'gad7', name: 'GAD-7 - Escala de Ansiedad Generalizada', description: 'Evaluación de síntomas de ansiedad en las últimas 2 semanas', items: 7 },
+                    { id: 'beck_anxiety', name: 'BAI - Inventario de Ansiedad de Beck', description: 'Evaluación de síntomas físicos de ansiedad', items: 21 },
+                    { id: 'hamilton_anxiety', name: 'Escala de Ansiedad de Hamilton (HAM-A)', description: 'Evaluación clínica de la severidad de la ansiedad', items: 14 }
+                ],
+                cognition: [
+                    { id: 'mini_mental', name: 'MMSE - Mini Examen del Estado Mental', description: 'Evaluación rápida de función cognitiva', items: '30 puntos' },
+                    { id: 'moca', name: 'MoCA - Evaluación Cognitiva de Montreal', description: 'Detección de deterioro cognitivo leve', items: '30 puntos' },
+                    { id: 'clock_drawing', name: 'Test del Reloj (Clock Drawing Test)', description: 'Evaluación rápida de función ejecutiva y visuoespacial', items: '1 dibujo' },
+                    { id: 'trail_making', name: 'Trail Making Test (TMT)', description: 'Evaluación de atención dividida y flexibilidad cognitiva', items: '2 partes (A y B)' }
+                ],
+                personality: [
+                    { id: 'big_five', name: 'Big Five - Inventario de Personalidad', description: 'Evaluación de los cinco grandes factores de personalidad', items: 44 }
+                ],
+                psychosis: [
+                    { id: 'panss', name: 'PANSS - Escala de Síndrome Positivo y Negativo', description: 'Evaluación comprensiva de síntomas psicóticos', items: 30 }
+                ],
+                addiction: [
+                    { id: 'audit', name: 'AUDIT - Test de Identificación de Trastornos por Alcohol', description: 'Screening para problemas con el alcohol', items: 10 },
+                    { id: 'dast10', name: 'DAST-10 - Test de Screening de Abuso de Drogas', description: 'Screening para problemas relacionados con drogas', items: 10 },
+                    { id: 'cage', name: 'CAGE - Cuestionario de Alcoholismo', description: 'Screening rápido para problemas de alcohol', items: 4 },
+                    { id: 'michigan_alcoholism', name: 'MAST - Test de Alcoholismo de Michigan', description: 'Evaluación comprensiva de problemas relacionados con alcohol', items: 25 }
+                ]
+            };
+            
+            const categoryNames = {
+                depression: 'Escalas de Depresión',
+                anxiety: 'Escalas de Ansiedad',
+                cognition: 'Test Cognitivos',
+                personality: 'Test de Personalidad',
+                psychosis: 'Escalas de Psicosis',
+                addiction: 'Test de Adicciones'
+            };
+            
+            const tests = categoryTests[category] || [];
+            const categoryName = categoryNames[category] || category;
+            
+            if (tests.length > 0) {
+                showCategoryModal(categoryName, tests);
+            } else {
+                alert(`Categoría: ${categoryName}\\n\\nNo hay tests específicos para esta categoría actualmente.`);
+            }
+        }
+        
+        // Modal functionality for New Test and History
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modals functionality
+            const newTestModal = document.getElementById('newTestModal');
+            const historyModal = document.getElementById('historyModal');
+            
+            if (newTestModal) {
+                newTestModal.addEventListener('shown.bs.modal', function() {
+                    console.log('New Test Modal opened');
+                    populateNewTestModal();
+                });
+            }
+            
+            if (historyModal) {
+                historyModal.addEventListener('shown.bs.modal', function() {
+                    console.log('History Modal opened');
+                    populateHistoryModal();
+                });
+            }
+        });
+        
+        function populateNewTestModal() {
+            // Populate the new test modal with available tests
+            const modalBody = document.querySelector('#newTestModal .modal-body');
+            if (modalBody && !modalBody.querySelector('.test-options')) {
+                modalBody.innerHTML = `
+                    <div class="test-options">
+                        <h6>Seleccionar tipo de test:</h6>
+                        <div class="list-group">
+                            <button class="list-group-item list-group-item-action" onclick="startTest('phq9')">
+                                <i class="fas fa-brain mr-2"></i> PHQ-9 - Depresión
+                            </button>
+                            <button class="list-group-item list-group-item-action" onclick="startTest('gad7')">
+                                <i class="fas fa-heart mr-2"></i> GAD-7 - Ansiedad
+                            </button>
+                            <button class="list-group-item list-group-item-action" onclick="startTest('mmse')">
+                                <i class="fas fa-puzzle-piece mr-2"></i> MMSE - Función Cognitiva
+                            </button>
+                            <button class="list-group-item list-group-item-action" onclick="startTest('bdi')">
+                                <i class="fas fa-cloud-rain mr-2"></i> BDI-II - Inventario de Depresión
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Los tests están completamente implementados con validación clínica.
+                            </small>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function populateHistoryModal() {
+            // Populate the history modal with test history
+            const modalBody = document.querySelector('#historyModal .modal-body');
+            if (modalBody && !modalBody.querySelector('.history-content')) {
+                const historyData = getTestHistory();
+                modalBody.innerHTML = `
+                    <div class="history-content">
+                        <h6>Historial de Tests Realizados:</h6>
+                        ${historyData.length > 0 ? 
+                            `<div class="list-group">
+                                ${historyData.map(test => `
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">${test.name}</h6>
+                                            <small>${test.date}</small>
+                                        </div>
+                                        <p class="mb-1">Resultado: ${test.score}</p>
+                                        <small>Interpretación: ${test.interpretation}</small>
+                                    </div>
+                                `).join('')}
+                            </div>` : 
+                            `<div class="text-center py-4">
+                                <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No hay tests realizados aún</p>
+                                <button class="btn btn-primary btn-sm" onclick="startTest('phq9')">
+                                    Realizar primer test
+                                </button>
+                            </div>`
+                        }
+                    </div>
+                `;
+            }
+        }
+        
+        function getTestHistory() {
+            // Get test history from localStorage or return sample data
+            const stored = localStorage.getItem('testHistory');
+            if (stored) {
+                return JSON.parse(stored);
+            }
+            
+            // Return sample history data
+            return [
+                {
+                    id: 1,
+                    name: 'PHQ-9',
+                    date: '2025-09-30',
+                    score: '8 puntos',
+                    interpretation: 'Depresión leve'
+                },
+                {
+                    id: 2,
+                    name: 'GAD-7',
+                    date: '2025-09-28',
+                    score: '5 puntos',
+                    interpretation: 'Ansiedad leve'
+                }
+            ];
+        }
+        
+        // Mostrar modal de categoría con tests funcionales
+        function showCategoryModal(categoryName, tests) {
+            // Crear modal si no existe
+            let modal = document.getElementById('categoryTestModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'categoryTestModal';
+                modal.className = 'modal fade';
+                modal.innerHTML = `
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="categoryModalTitle"></h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body" id="categoryModalBody"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            
+            // Actualizar contenido
+            document.getElementById('categoryModalTitle').textContent = categoryName;
+            document.getElementById('categoryModalBody').innerHTML = `
+                <div class="row">
+                    ${tests.map(test => `
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title text-primary">${test.name}</h6>
+                                    <p class="card-text small text-muted">${test.description}</p>
+                                    <button class="btn btn-primary btn-sm w-100" onclick="startTestFromModal('${test.id}')">
+                                        <i class="fas fa-play me-1"></i>
+                                        Iniciar Test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Información:</strong> Todos los tests incluyen puntuación automática e interpretación diagnóstica profesional.
+                </div>
+            `;
+            
+            // Mostrar modal
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+        }
+        
+        // Iniciar test desde modal
+        function startTestFromModal(testId) {
+            // Cerrar modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('categoryTestModal'));
+            if (modal) modal.hide();
+            
+            // Iniciar test
+            if (window.psychometricManager) {
+                window.psychometricManager.startTest(testId);
+            }
+        }
+
+        // Show alert messages
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Event delegation for test navigation buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('.next-question-btn') || e.target.closest('.next-question-btn')) {
+                e.preventDefault();
+                if (window.psychometricManager) {
+                    window.psychometricManager.nextQuestion();
+                }
+            }
+            
+            if (e.target.matches('.prev-question-btn') || e.target.closest('.prev-question-btn')) {
+                e.preventDefault();
+                if (window.psychometricManager) {
+                    window.psychometricManager.previousQuestion();
+                }
+            }
+            
+            if (e.target.matches('.finish-test-btn') || e.target.closest('.finish-test-btn')) {
+                e.preventDefault();
+                if (window.psychometricManager) {
+                    window.psychometricManager.finishTest();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

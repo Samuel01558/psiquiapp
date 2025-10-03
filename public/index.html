@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsiquiApp - Sistema de Gestión Psiquiátrica</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .welcome-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+        }
+        
+        .welcome-content {
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .welcome-logo {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .welcome-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.95); /* Aumentado de 0.2 a 0.95 para mejor contraste */
+            border: 2px solid white;
+            color: #2C2C54; /* Cambio a color oscuro para mejor contraste */
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-weight: 600; /* Añadido peso para mejor legibilidad */
+        }
+        
+        .welcome-btn:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añadida sombra para mejor visibilidad */
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature {
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Navegación principal */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 27, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.15s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        
+        /* Ajuste del contenido principal para la navegación fija */
+        .welcome-container {
+            padding-top: 80px;
+        }
+        
+        /* Breadcrumbs */
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-nav a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        
+        .breadcrumb-nav a:hover {
+            color: white;
+        }
+        
+        .breadcrumb-separator {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .breadcrumb-current {
+            color: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Principal -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <a href="/" class="nav-logo navbar-brand" aria-label="PsiquiApp - Ir a página de inicio">
+                <span aria-hidden="true">🧠</span>
+                PsiquiApp
+            </a>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="/" class="active" role="menuitem" aria-current="page">Inicio</a></li>
+                <li role="none"><a href="/login" role="menuitem">Acceder</a></li>
+                <li role="none"><a href="#features" role="menuitem">Características</a></li>
+                <li role="none"><a href="#about" role="menuitem">Acerca de</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb-nav" aria-label="Navegación de ruta">
+                <a href="/">🏠 Inicio</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-current">Página Principal</span>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Contenido Principal -->
+    <main class="welcome-container" role="main">
+        <div class="welcome-content fade-in">
+            <div class="welcome-logo" aria-hidden="true">🧠</div>
+            <h1 class="welcome-title">PsiquiApp</h1>
+            <p class="welcome-subtitle">
+                Sistema integral de gestión para profesionales de la salud mental
+            </p>
+            
+            <a href="/login" class="welcome-btn" role="button" aria-label="Iniciar sesión en PsiquiApp">
+                Iniciar Sesión
+            </a>
+            
+            <!-- Características del Sistema -->
+            <section class="features" id="features" aria-labelledby="features-heading">
+                <h2 id="features-heading" style="position: absolute; left: -9999px;">Características principales de PsiquiApp</h2>
+                <article class="feature">
+                    <div class="feature-icon" aria-hidden="true">📋</div>
+                    <h3>Gestión de Consultas</h3>
+                    <p>Expedientes digitales completos</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon" aria-hidden="true">💊</div>
+                    <h3>Recetas Médicas</h3>
+                    <p>Prescripciones digitales seguras</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon" aria-hidden="true">📊</div>
+                    <h3>Tests Psicométricos</h3>
+                    <p>Evaluaciones estandarizadas</p>
+                </article>
+                <div class="feature">
+                    <div class="feature-icon">📖</div>
+                    <h3>Guías Clínicas</h3>
+                    <p>DSM-5 y CIE-10 integrados</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem; font-size: 0.9rem; opacity: 0.8;">
+                <p>&copy; 2025 PsiquiApp. Diseñado para profesionales de la salud mental.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-redirigir si ya está logueado
+        fetch('/api/doctor/profile')
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/dashboard';
+                }
+            })
+            .catch(() => {
+                // Usuario no logueado, mostrar página de bienvenida
+            });
+    </script>
+</body>
+</html>

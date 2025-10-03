@@ -1,0 +1,333 @@
+/* ===== PSIQUIAPP - PALETA DE COLORES PSIQUIATRÍA ===== */
+
+/* Variables CSS personalizadas para psiquiatría */
+:root {
+  /* Colores principales de psiquiatría */
+  --psiqui-primary: #4A7C59;        /* Verde terapéutico - calma y crecimiento */
+  --psiqui-secondary: #7B68EE;      /* Violeta neurológico - mente y cognición */
+  --psiqui-accent: #5D9CEC;         /* Azul serenidad - paz mental */
+  --psiqui-warm: #B8860B;           /* Dorado tierra - estabilidad */
+  --psiqui-soft: #8FBC8F;           /* Verde suave - relajación */
+  
+  /* Tonos complementarios */
+  --psiqui-light: #F0F8F0;          /* Verde muy claro - frescura */
+  --psiqui-medium: #E6F3FF;         /* Azul muy claro - tranquilidad */
+  --psiqui-dark: #2F4F4F;           /* Gris oscuro - profesionalismo */
+  
+  /* Estados emocionales */
+  --psiqui-success: #228B22;        /* Verde éxito - curación */
+  --psiqui-warning: #DAA520;        /* Dorado advertencia - precaución */
+  --psiqui-danger: #CD5C5C;         /* Coral suave - urgencia sin agresividad */
+  --psiqui-info: #4682B4;           /* Azul acero - información */
+  
+  /* Layout */
+  --sidebar-width: 280px;
+  --navbar-height: 70px;
+  
+  /* Gradientes terapéuticos */
+  --psiqui-gradient-primary: linear-gradient(135deg, var(--psiqui-primary) 0%, var(--psiqui-accent) 100%);
+  --psiqui-gradient-secondary: linear-gradient(135deg, var(--psiqui-secondary) 0%, var(--psiqui-soft) 100%);
+  --psiqui-gradient-calm: linear-gradient(135deg, var(--psiqui-light) 0%, var(--psiqui-medium) 100%);
+  
+  /* Sombras terapéuticas */
+  --psiqui-shadow-soft: 0 2px 15px rgba(74, 124, 89, 0.1);
+  --psiqui-shadow-medium: 0 4px 25px rgba(74, 124, 89, 0.15);
+  --psiqui-shadow-strong: 0 8px 35px rgba(74, 124, 89, 0.2);
+}
+
+/* Layout base */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar blanco */
+.navbar {
+  background-color: var(--psiqui-white) !important;
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: var(--navbar-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+}
+
+.navbar-brand {
+  color: var(--psiqui-primary) !important;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+  color: var(--psiqui-dark) !important;
+}
+
+.dropdown-menu {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dee2e6;
+}
+
+/* Sidebar blanco */
+.sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  height: calc(100vh - var(--navbar-height));
+  width: var(--sidebar-width);
+  background-color: var(--psiqui-white);
+  border-right: 1px solid #dee2e6;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.sidebar-header h5 {
+  color: var(--psiqui-dark);
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  margin: 0;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: var(--psiqui-dark);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+  background-color: #f8f9fa;
+  color: var(--psiqui-primary);
+  text-decoration: none;
+  border-left-color: var(--psiqui-primary);
+}
+
+.sidebar-link.active {
+  background-color: #e3f2fd;
+  color: var(--psiqui-primary);
+  border-left-color: var(--psiqui-primary);
+  font-weight: 600;
+}
+
+.sidebar-icon {
+  width: 18px;
+  margin-right: 12px;
+  color: inherit;
+}
+
+/* Main content ajustado para sidebar */
+.main-content {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--navbar-height);
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+/* Cards blancas con sombra suave */
+.card {
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+}
+
+/* Botones */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--psiqui-primary);
+  border-color: var(--psiqui-primary);
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* Estadísticas mejoradas */
+.stats-card {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.stats-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.stats-icon.primary { background-color: var(--psiqui-primary); }
+.stats-icon.success { background-color: var(--psiqui-success); }
+.stats-icon.info { background-color: var(--psiqui-info); }
+.stats-icon.warning { background-color: var(--psiqui-warning); }
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+/* Formularios */
+.form-control {
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--psiqui-primary);
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+/* Alertas */
+.alert {
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Tablas */
+.table {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: var(--psiqui-dark);
+}
+
+/* Modales */
+.modal-content {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Page header */
+.page-header {
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.page-title {
+  color: var(--psiqui-dark);
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  color: var(--psiqui-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

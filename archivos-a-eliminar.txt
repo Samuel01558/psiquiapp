@@ -1,0 +1,48 @@
+# Archivos a Eliminar del Repositorio
+
+## Documentos MD (excepto README.md)
+.github/copilot-instructions.md
+CORRECCIONES_APLICADAS.md
+ENTREGA.md
+ENTREGA_FINAL.md
+INICIO_RAPIDO.md
+PRESENTACION_FUNCIONALIDADES.md
+README-DEMO.md
+README-FUNCIONALIDADES.md
+RESUMEN_ENTREGABLE.md
+SETUP_INSTRUCTIONS.md
+VERIFICACION_ENTREGA.md
+
+## Scripts de Desarrollo
+capture-screenshots.js
+debug-tests.js
+demo-live.js
+demo-server.js
+fill-forms-and-capture.js
+final-screenshots.js
+find-mysql-credentials.js
+interactive-screenshots.js
+mobile-summary.js
+server-sqlite.js
+simple-screenshots.js
+test-db.js
+test-server.js
+
+## Configuraciones de Testing
+jest.config.js
+playwright.config.js
+pnpm-workspace.yaml
+
+## Carpetas Completas
+mcp-analyzer/
+screenshots-presentacion/
+tests/
+ENTREGABLE/
+
+## Scripts PowerShell
+reiniciar-todo.ps1
+
+## Archivos SQL adicionales
+add_admin_field.sql
+migration_consultas_cita_id_nullable.sql
+migration_prevent_duplicates.sql

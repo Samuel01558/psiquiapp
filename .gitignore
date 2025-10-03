@@ -1,0 +1,220 @@
+# ============================================
+# DEPENDENCIAS
+# ============================================
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# ============================================
+# VARIABLES DE ENTORNO Y CREDENCIALES
+# ============================================
+.env
+.env.local
+.env.production
+.env.*.local
+.env.development
+.env.test
+
+# ============================================
+# LOGS Y ARCHIVOS DE DEPURACIÓN
+# ============================================
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+error.log
+combined.log
+access.log
+debug.log
+
+# ============================================
+# ARCHIVOS DE BUILD Y COMPILACIÓN
+# ============================================
+dist/
+build/
+out/
+.next/
+.nuxt/
+mcp-analyzer/dist/
+
+# ============================================
+# TESTING Y COVERAGE
+# ============================================
+test-results/
+playwright-report/
+coverage/
+.nyc_output/
+*.lcov
+junit.xml
+
+# ============================================
+# BACKUPS Y SQL
+# ============================================
+backup/
+*.sql
+*.sql.gz
+*.backup
+*.bak
+*.old
+*.orig
+database_backup_*.sql
+migration_*.sql
+add_admin_field.sql
+
+# ============================================
+# CERTIFICADOS SSL Y SEGURIDAD
+# ============================================
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+
+# ============================================
+# SESIONES Y CACHE
+# ============================================
+sessions/
+*.session
+.cache/
+.parcel-cache/
+.eslintcache
+
+# ============================================
+# IDE Y EDITORES
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# SISTEMA OPERATIVO
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ============================================
+# ARCHIVOS TEMPORALES
+# ============================================
+tmp/
+temp/
+*.tmp
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# SCREENSHOTS Y REPORTES DE PRESENTACIÓN
+# ============================================
+screenshots/
+screenshots-presentacion/
+mcp-analyzer/screenshots/
+playwright-report/
+test-results/
+
+# ============================================
+# SCRIPTS DE DESARROLLO Y TESTING
+# ============================================
+demo-*.js
+test-*.js
+debug-*.js
+create-admin*.js
+find-*.js
+fill-forms-*.js
+final-screenshots.js
+interactive-screenshots.js
+simple-screenshots.js
+capture-screenshots.js
+mobile-summary.js
+server-sqlite.js
+
+# ============================================
+# CONFIGURACIÓN DE TESTING
+# ============================================
+playwright.config.js
+jest.config.js
+config/tests-endpoints.js
+
+# ============================================
+# DOCUMENTACIÓN DE DESARROLLO
+# (Comentar líneas individuales si se quieren subir)
+# ============================================
+ADMIN_SISTEMA.md
+CORRECCION_*.md
+CORRECCIONES_*.md
+DOCUMENTACION_PROYECTO.md
+EJECUTAR_PARA_GITHUB.md
+ENDPOINTS_AGREGADOS.md
+ENTREGA*.md
+FIX_ARIA_HIDDEN_MODALES.md
+FUNCIONES_COMPLETAS_*.md
+GUIA_RAPIDA_IMPLEMENTACION.md
+HERRAMIENTAS_IMPLEMENTADAS.md
+IMPLEMENTACION_COMPLETA_*.md
+INICIO_RAPIDO.md
+INSTRUCCIONES_GIT.md
+LIMPIAR_CACHE_NAVEGADOR.md
+MEJORA_MENSAJES_BUSQUEDA.md
+PRESENTACION_FUNCIONALIDADES.md
+README-DEMO.md
+README-FUNCIONALIDADES.md
+RESUMEN_*.md
+SETUP_INSTRUCTIONS.md
+SISTEMA_SUSPENSION.md
+SOLUCION_*.md
+VERIFICACION_*.md
+
+# ============================================
+# SCRIPTS POWERSHELL DE DESARROLLO
+# ============================================
+reiniciar-todo.ps1
+*.ps1
+
+# ============================================
+# CARPETAS DE DESARROLLO Y ANÁLISIS
+# ============================================
+mcp-analyzer/
+ENTREGABLE/
+button-tests/
+
+# ============================================
+# BASES DE DATOS LOCALES
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================
+# NPM Y YARN
+# ============================================
+.npm
+.yarn-integrity
+.pnp.*
+.pnp.js
+
+# ============================================
+# TYPESCRIPT
+# ============================================
+*.tsbuildinfo
+
+# ============================================
+# WORKSPACE YAML
+# ============================================
+pnpm-workspace.yaml

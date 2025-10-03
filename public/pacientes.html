@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes - PsiquiApp</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/bootstrap-custom-psiqui.css" rel="stylesheet">
+    
+    <!-- Custom Styles for Modal -->
+    <style>
+        .btn-close-white {
+            filter: brightness(0) invert(1);
+            opacity: 0.8;
+            font-size: 1.2rem;
+            padding: 0.75rem;
+        }
+        
+        .btn-close-white:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            transition: all 0.2s ease;
+        }
+        
+        .modal-header {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-footer {
+            border-top: 2px solid #e9ecef;
+            padding: 1rem 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light d-lg-none me-2" type="button" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="fas fa-brain me-2"></i>
+                PsiquiApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%234A7C59'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E" class="rounded-circle me-2" alt="Doctor Avatar" id="doctorAvatar">
+                            <span id="doctorName" class="d-none d-sm-inline">Dr. Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar bg-white shadow-sm">
+                <div class="sidebar-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th-list me-2" aria-hidden="true"></i>
+                        MENÚ PRINCIPAL
+                    </h5>
+                </div>
+                <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <i class="fas fa-th-large sidebar-icon"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="pacientes.html" class="sidebar-link active">
+                        <i class="fas fa-users sidebar-icon"></i>
+                        Pacientes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="consultas.html" class="sidebar-link">
+                        <i class="fas fa-notes-medical sidebar-icon"></i>
+                        Consultas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="recetas.html" class="sidebar-link">
+                        <i class="fas fa-prescription-bottle-alt sidebar-icon"></i>
+                        Recetas Médicas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="dsm5.html" class="sidebar-link">
+                        <i class="fas fa-book sidebar-icon"></i>
+                        Guía DSM-5
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="cie10.html" class="sidebar-link">
+                        <i class="fas fa-clipboard-list sidebar-icon"></i>
+                        CIE-10
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tests.html" class="sidebar-link">
+                        <i class="fas fa-clipboard-check sidebar-icon"></i>
+                        Test Psicométricos
+                    </a>
+                </li>
+            </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="container-fluid">
+                    <!-- Suspended Account Warning -->
+                    <div id="suspendedWarning" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+                        <h4 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Cuenta Suspendida - Modo Solo Lectura
+                        </h4>
+                        <p class="mb-0">
+                            Su cuenta ha sido suspendida por el administrador. Puede visualizar toda la información 
+                            pero no podrá realizar modificaciones, agregar o eliminar datos. 
+                            Contacte al administrador para más información.
+                        </p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Page Header -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h1 class="page-title">
+                                <i class="fas fa-users text-primary mr-3"></i>
+                                Gestión de Pacientes
+                            </h1>
+                            <p class="text-muted">Administra los registros de pacientes de manera eficiente</p>
+                        </div>
+                    </div>
+
+            <!-- Action Buttons -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-primary" id="newPatientBtn" onclick="showAddPatientModal()">
+                            <i class="fas fa-plus mr-2"></i>
+                            Nuevo Paciente
+                        </button>
+                        <button class="btn btn-outline-secondary" id="exportPatientsBtn" onclick="exportPatients()">
+                            <i class="fas fa-download mr-2"></i>
+                            Exportar
+                        </button>
+                        <button class="btn btn-outline-info" onclick="refreshPatients()">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="searchPatients" placeholder="Buscar pacientes por nombre, apellido o ID...">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <select class="form-control" id="filterStatus">
+                        <option value="">Todos los estados</option>
+                        <option value="activo">Activos</option>
+                        <option value="inactivo">Inactivos</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Patients Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light border-bottom">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-list mr-2"></i>
+                                Lista de Pacientes
+                            </h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Apellidos</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Teléfono</th>
+                                            <th scope="col">Fecha Nacimiento</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="patientsTableBody">
+                                        <!-- Dynamic content will be loaded here -->
+                                        <tr>
+                                            <td colspan="8" class="text-center py-4">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="sr-only">Cargando...</span>
+                                                </div>
+                                                <p class="mt-2 mb-0 text-muted">Cargando pacientes...</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center" id="patientsPagination">
+                            <!-- Pagination will be generated dynamically -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div class="modal fade" id="addPatientModal" tabindex="-1" role="dialog" aria-labelledby="addPatientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="addPatientModalLabel">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Nuevo Paciente
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">\n                    <form id="addPatientForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patientName">Nombre *</label>
+                                    <input type="text" class="form-control" id="patientName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patientLastName">Apellidos *</label>
+                                    <input type="text" class="form-control" id="patientLastName" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patientEmail">Email</label>
+                                    <input type="email" class="form-control" id="patientEmail">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patientPhone">Teléfono</label>
+                                    <input type="tel" class="form-control" id="patientPhone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patientBirthDate">Fecha de Nacimiento *</label>
+                                    <input type="date" class="form-control" id="patientBirthDate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patientGender">Género</label>
+                                    <select class="form-control" id="patientGender">
+                                        <option value="">Seleccionar...</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientAddress">Dirección</label>
+                            <textarea class="form-control" id="patientAddress" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientNotes">Notas Adicionales</label>
+                            <textarea class="form-control" id="patientNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="savePatient()">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar Paciente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap 5 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/pacientes.js?v=4.1.0"></script>
+    
+    <script>
+        // Global patients data
+        let patientsData = [];
+        let filteredPatients = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        // Show Add Patient Modal
+        function showAddPatientModal() {
+            const modal = new bootstrap.Modal(document.getElementById('addPatientModal'));
+            document.getElementById('addPatientForm').reset();
+            modal.show();
+        }
+
+        // Save Patient
+        function savePatient() {
+            const form = document.getElementById('addPatientForm');
+            
+            const patientData = {
+                id: Date.now(),
+                name: document.getElementById('patientName').value,
+                lastName: document.getElementById('patientLastName').value,
+                email: document.getElementById('patientEmail').value,
+                phone: document.getElementById('patientPhone').value,
+                birthDate: document.getElementById('patientBirthDate').value,
+                gender: document.getElementById('patientGender').value,
+                address: document.getElementById('patientAddress').value,
+                notes: document.getElementById('patientNotes').value,
+                status: 'activo',
+                createdAt: new Date().toISOString()
+            };
+
+            // Validate required fields
+            if (!patientData.name || !patientData.lastName || !patientData.birthDate) {
+                alert('Por favor complete todos los campos obligatorios (marcados con *)');
+                return;
+            }
+
+            // Add to patients array
+            patientsData.push(patientData);
+            
+            // Save to localStorage
+            localStorage.setItem('patientsData', JSON.stringify(patientsData));
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addPatientModal'));
+            modal.hide();
+            
+            // Refresh table
+            refreshPatients();
+            
+            // Show success message
+            showAlert('Paciente agregado exitosamente', 'success');
+        }
+
+        // Export Patients
+        function exportPatients() {
+            if (patientsData.length === 0) {
+                alert('No hay pacientes para exportar');
+                return;
+            }
+
+            const csvContent = generatePatientsCSV(patientsData);
+            downloadCSV(csvContent, 'pacientes.csv');
+            showAlert('Datos exportados exitosamente', 'success');
+        }
+
+        // Generate CSV content
+        function generatePatientsCSV(data) {
+            const headers = ['ID', 'Nombre', 'Apellidos', 'Email', 'Teléfono', 'Fecha Nacimiento', 'Género', 'Estado'];
+            const csvRows = [headers.join(',')];
+            
+            data.forEach(patient => {
+                const row = [
+                    patient.id,
+                    patient.name,
+                    patient.lastName,
+                    patient.email || '',
+                    patient.phone || '',
+                    patient.birthDate,
+                    patient.gender || '',
+                    patient.status
+                ];
+                csvRows.push(row.join(','));
+            });
+            
+            return csvRows.join('\n');
+        }
+
+        // Download CSV file
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Refresh Patients
+        function refreshPatients() {
+            loadPatientsData();
+            renderPatientsTable();
+            showAlert('Datos actualizados', 'info');
+        }
+
+        // Load patients data
+        function loadPatientsData() {
+            const stored = localStorage.getItem('patientsData');
+            if (stored) {
+                patientsData = JSON.parse(stored);
+            } else {
+                // Generate sample data if none exists
+                patientsData = generateSamplePatients();
+                localStorage.setItem('patientsData', JSON.stringify(patientsData));
+            }
+            filteredPatients = [...patientsData];
+        }
+
+        // Generate sample patients
+        function generateSamplePatients() {
+            return [
+                {
+                    id: 1,
+                    name: 'Juan',
+                    lastName: 'Pérez García',
+                    email: 'juan.perez@email.com',
+                    phone: '+34 612 345 678',
+                    birthDate: '1985-03-15',
+                    gender: 'M',
+                    status: 'activo',
+                    createdAt: '2025-09-01T10:00:00Z'
+                },
+                {
+                    id: 2,
+                    name: 'María',
+                    lastName: 'González López',
+                    email: 'maria.gonzalez@email.com',
+                    phone: '+34 687 543 210',
+                    birthDate: '1992-07-22',
+                    gender: 'F',
+                    status: 'activo',
+                    createdAt: '2025-09-05T14:30:00Z'
+                },
+                {
+                    id: 3,
+                    name: 'Carlos',
+                    lastName: 'Martínez Ruiz',
+                    email: 'carlos.martinez@email.com',
+                    phone: '+34 654 987 321',
+                    birthDate: '1978-11-08',
+                    gender: 'M',
+                    status: 'inactivo',
+                    createdAt: '2025-08-20T09:15:00Z'
+                }
+            ];
+        }
+
+        // Render patients table
+        function renderPatientsTable() {
+            const tbody = document.getElementById('patientsTableBody');
+            
+            if (filteredPatients.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No se encontraron pacientes</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedPatients = filteredPatients.slice(start, end);
+
+            tbody.innerHTML = paginatedPatients.map(patient => `
+                <tr>
+                    <td><strong>#${patient.id}</strong></td>
+                    <td>${patient.name}</td>
+                    <td>${patient.lastName}</td>
+                    <td>${patient.email || '<span class="text-muted">No especificado</span>'}</td>
+                    <td>${patient.phone || '<span class="text-muted">No especificado</span>'}</td>
+                    <td>${formatDate(patient.birthDate)}</td>
+                    <td>
+                        <span class="badge badge-${patient.status === 'activo' ? 'success' : 'secondary'}">
+                            ${patient.status}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewPatient(${patient.id})" title="Ver">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning" onclick="editPatient(${patient.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deletePatient(${patient.id})" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            renderPagination();
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES');
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
+            const pagination = document.getElementById('patientsPagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+            `;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage || i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                        </li>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+
+            // Next button
+            paginationHTML += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            `;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderPatientsTable();
+            }
+        }
+
+        // ⚠️ NOTA: Las funciones viewPatient, editPatient y deletePatient
+        // están definidas en pacientes.js con la estructura correcta de la base de datos.
+        // NO redefinirlas aquí para evitar conflictos.
+        
+        /* FUNCIONES COMENTADAS - Usar las de pacientes.js
+        function viewPatient(id) {
+            const patient = patientsData.find(p => p.id === id);
+            if (patient) {
+                alert(`Detalles del paciente...`);
+            }
+        }
+
+        function editPatient(id) {
+            const patient = patientsData.find(p => p.id === id);
+            if (patient) {
+                // Fill form...
+            }
+        }
+
+        function deletePatient(id) {
+            if (confirm('¿Está seguro de que desea eliminar este paciente?')) {
+                patientsData = patientsData.filter(p => p.id !== id);
+                localStorage.setItem('patientsData', JSON.stringify(patientsData));
+                refreshPatients();
+                showAlert('Paciente eliminado exitosamente', 'warning');
+            }
+        }
+        */
+
+        // Search and filter functionality
+        function initializeFilters() {
+            const searchInput = document.getElementById('searchPatients');
+            const statusFilter = document.getElementById('filterStatus');
+
+            searchInput.addEventListener('input', filterPatients);
+            statusFilter.addEventListener('change', filterPatients);
+        }
+
+        function filterPatients() {
+            const searchTerm = document.getElementById('searchPatients').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+
+            filteredPatients = patientsData.filter(patient => {
+                const matchesSearch = !searchTerm || 
+                    patient.name.toLowerCase().includes(searchTerm) ||
+                    patient.lastName.toLowerCase().includes(searchTerm) ||
+                    patient.id.toString().includes(searchTerm) ||
+                    (patient.email && patient.email.toLowerCase().includes(searchTerm));
+
+                const matchesStatus = !statusFilter || patient.status === statusFilter;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            currentPage = 1;
+            renderPatientsTable();
+        }
+
+        // Show alert messages
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPatientsData();
+            renderPatientsTable();
+            initializeFilters();
+        });
+    </script>
+</body>
+</html>

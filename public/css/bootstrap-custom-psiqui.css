@@ -1,0 +1,694 @@
+/* ===== PSIQUIAPP - PALETA DE COLORES PSIQUIATRÍA ===== */
+
+/* Variables CSS personalizadas para psiquiatría */
+:root {
+  /* Colores principales de psiquiatría */
+  --psiqui-primary: #4A7C59;        /* Verde terapéutico - calma y crecimiento */
+  --psiqui-secondary: #7B68EE;      /* Violeta neurológico - mente y cognición */
+  --psiqui-accent: #5D9CEC;         /* Azul serenidad - paz mental */
+  --psiqui-warm: #B8860B;           /* Dorado tierra - estabilidad */
+  --psiqui-soft: #8FBC8F;           /* Verde suave - relajación */
+  
+  /* Tonos complementarios */
+  --psiqui-light: #F0F8F0;          /* Verde muy claro - frescura */
+  --psiqui-medium: #E6F3FF;         /* Azul muy claro - tranquilidad */
+  --psiqui-dark: #2F4F4F;           /* Gris oscuro - profesionalismo */
+  
+  /* Estados emocionales */
+  --psiqui-success: #228B22;        /* Verde éxito - curación */
+  --psiqui-warning: #DAA520;        /* Dorado advertencia - precaución */
+  --psiqui-danger: #CD5C5C;         /* Coral suave - urgencia sin agresividad */
+  --psiqui-info: #4682B4;           /* Azul acero - información */
+  
+  /* Layout */
+  --sidebar-width: 280px;
+  --navbar-height: 70px;
+  
+  /* Gradientes terapéuticos */
+  --psiqui-gradient-primary: linear-gradient(135deg, var(--psiqui-primary) 0%, var(--psiqui-accent) 100%);
+  --psiqui-gradient-secondary: linear-gradient(135deg, var(--psiqui-secondary) 0%, var(--psiqui-soft) 100%);
+  --psiqui-gradient-calm: linear-gradient(135deg, var(--psiqui-light) 0%, var(--psiqui-medium) 100%);
+  
+  /* Sombras terapéuticas */
+  --psiqui-shadow-soft: 0 2px 15px rgba(74, 124, 89, 0.1);
+  --psiqui-shadow-medium: 0 4px 25px rgba(74, 124, 89, 0.15);
+  --psiqui-shadow-strong: 0 8px 35px rgba(74, 124, 89, 0.2);
+}
+
+/* Layout base con fondo terapéutico */
+body {
+  background: var(--psiqui-gradient-calm);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--psiqui-dark);
+}
+
+/* ===== NAVBAR PSIQUIÁTRICO ===== */
+.navbar {
+  background: var(--psiqui-gradient-primary) !important;
+  border-bottom: 1px solid rgba(74, 124, 89, 0.2);
+  box-shadow: var(--psiqui-shadow-soft);
+  height: var(--navbar-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Igualar tamaño de iconos en navbar - Dashboard y Avatar */
+.navbar-nav .nav-link .fas,
+.navbar-nav .nav-link .fa {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+
+.navbar-nav .rounded-circle {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  background: var(--psiqui-light);
+  border: none;
+  box-shadow: var(--psiqui-shadow-medium);
+  border-radius: 12px;
+  padding: 0.5rem 0;
+}
+
+.dropdown-item {
+  color: var(--psiqui-dark);
+  padding: 0.6rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background: var(--psiqui-medium);
+  color: var(--psiqui-primary);
+}
+
+/* ===== SIDEBAR TERAPÉUTICO ===== */
+.sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  height: calc(100vh - var(--navbar-height));
+  width: var(--sidebar-width);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(240, 248, 240, 0.95) 100%);
+  border-right: 2px solid rgba(74, 124, 89, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+  box-shadow: 4px 0 20px rgba(74, 124, 89, 0.1);
+  backdrop-filter: blur(15px);
+}
+
+.sidebar-header {
+  padding: 1.5rem 1rem;
+  border-bottom: 2px solid rgba(74, 124, 89, 0.15);
+  background: linear-gradient(135deg, rgba(74, 124, 89, 0.05) 0%, rgba(93, 156, 236, 0.05) 100%);
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.sidebar-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--psiqui-gradient-primary);
+}
+
+.sidebar-header h5 {
+  color: var(--psiqui-primary);
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-align: center;
+  position: relative;
+  text-shadow: 0 1px 3px rgba(74, 124, 89, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-header h5 i {
+  color: var(--psiqui-accent);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-top: 0.5rem;
+}
+
+.sidebar-item {
+  margin-bottom: 0.3rem;
+  padding: 0 0.8rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1.2rem;
+  color: #5a6c75;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--psiqui-primary) 0%, var(--psiqui-accent) 100%);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.sidebar-link:hover {
+  background: linear-gradient(135deg, rgba(74, 124, 89, 0.08) 0%, rgba(93, 156, 236, 0.05) 100%);
+  color: var(--psiqui-primary);
+  text-decoration: none;
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(74, 124, 89, 0.1);
+}
+
+.sidebar-link:hover::before {
+  width: 4px;
+}
+
+.sidebar-link.active {
+  background: var(--psiqui-gradient-primary);
+  color: white;
+  transform: translateX(0);
+  box-shadow: 0 6px 20px rgba(74, 124, 89, 0.25);
+  font-weight: 600;
+}
+
+.sidebar-link.active::before {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.9rem;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.25s ease;
+  opacity: 0.8;
+}
+
+.sidebar-link:hover .sidebar-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.sidebar-link.active .sidebar-icon {
+  opacity: 1;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2));
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding-top: var(--navbar-height);
+  min-height: 100vh;
+  background: var(--psiqui-gradient-calm);
+  transition: margin-left 0.3s ease;
+}
+
+.container-fluid {
+  padding: 2rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .sidebar-header h5 {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  
+  .sidebar-link {
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .sidebar-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.7rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 260px;
+    --navbar-height: 60px;
+  }
+  
+  .container-fluid {
+    padding: 1rem;
+  }
+  
+  .sidebar-header {
+    padding: 1rem 0.8rem;
+  }
+  
+  .sidebar-header h5 {
+    font-size: 0.75rem;
+  }
+  
+  .sidebar-link {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --sidebar-width: 240px;
+    --navbar-height: 55px;
+  }
+  
+  .sidebar-header h5 {
+    font-size: 0.7rem;
+    letter-spacing: 0.8px;
+  }
+  
+  .sidebar-header h5 i {
+    font-size: 0.8rem;
+  }
+  
+  .sidebar-link {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.75rem;
+  }
+  
+  .sidebar-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== BOTONES PSIQUIÁTRICOS ===== */
+.btn-primary {
+  background: var(--psiqui-gradient-primary);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: var(--psiqui-shadow-soft);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--psiqui-shadow-medium);
+  background: linear-gradient(135deg, #3e6b4b 0%, #4a8bc2 100%);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--psiqui-primary);
+  color: var(--psiqui-primary);
+  background: transparent;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: var(--psiqui-primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--psiqui-shadow-soft);
+}
+
+.btn-success {
+  background: var(--psiqui-success);
+  border-color: var(--psiqui-success);
+}
+
+.btn-warning {
+  background: var(--psiqui-warning);
+  border-color: var(--psiqui-warning);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--psiqui-danger);
+  border-color: var(--psiqui-danger);
+}
+
+.btn-info {
+  background: var(--psiqui-info);
+  border-color: var(--psiqui-info);
+}
+
+/* ===== CARDS TERAPÉUTICAS ===== */
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--psiqui-shadow-soft);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--psiqui-shadow-medium);
+}
+
+.card-header {
+  background: var(--psiqui-gradient-secondary);
+  color: white;
+  border: none;
+  padding: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+/* ===== STATISTICS CARDS ===== */
+.stat-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  border-left: 5px solid var(--psiqui-primary);
+  box-shadow: var(--psiqui-shadow-soft);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--psiqui-shadow-medium);
+  border-left-color: var(--psiqui-secondary);
+}
+
+.stat-card .stat-icon {
+  font-size: 3rem;
+  color: var(--psiqui-primary);
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 5px rgba(74, 124, 89, 0.3);
+}
+
+.stat-card .stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--psiqui-dark);
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+  color: var(--psiqui-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+/* ===== TABLES ===== */
+.table {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background: var(--psiqui-gradient-primary);
+  color: white;
+  border: none;
+  padding: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: var(--psiqui-light);
+  transform: scale(1.01);
+}
+
+.table tbody td {
+  padding: 1rem 1.2rem;
+  border-color: rgba(74, 124, 89, 0.1);
+  vertical-align: middle;
+}
+
+/* ===== BADGES EMOCIONALES ===== */
+.badge {
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success {
+  background: var(--psiqui-success);
+  color: white;
+}
+
+.badge-warning {
+  background: var(--psiqui-warning);
+  color: white;
+}
+
+.badge-danger {
+  background: var(--psiqui-danger);
+  color: white;
+}
+
+.badge-info {
+  background: var(--psiqui-info);
+  color: white;
+}
+
+/* ===== FORMS TERAPÉUTICOS ===== */
+.form-control {
+  border: 2px solid rgba(74, 124, 89, 0.2);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus {
+  border-color: var(--psiqui-primary);
+  box-shadow: 0 0 0 0.25rem rgba(74, 124, 89, 0.15);
+  background: white;
+}
+
+.form-label {
+  color: var(--psiqui-dark);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== PAGINATION ===== */
+.pagination .page-link {
+  color: var(--psiqui-primary);
+  border: 1px solid rgba(74, 124, 89, 0.2);
+  padding: 0.7rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+  background: var(--psiqui-light);
+  color: var(--psiqui-primary);
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--psiqui-gradient-primary);
+  border-color: var(--psiqui-primary);
+  color: white;
+}
+
+/* ===== PAGE TITLES ===== */
+.page-title {
+  color: var(--psiqui-dark);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 1px 3px rgba(74, 124, 89, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.page-title i {
+  color: var(--psiqui-primary);
+  margin-right: 1rem;
+  text-shadow: 0 2px 5px rgba(74, 124, 89, 0.3);
+}
+
+/* ===== MODAL TERAPÉUTICO ===== */
+.modal-content {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--psiqui-shadow-strong);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+}
+
+.modal-header {
+  background: var(--psiqui-gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 16px 16px 0 0;
+  padding: 1.5rem 2rem;
+}
+
+.modal-title {
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  border: none;
+  padding: 1rem 2rem 2rem;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.card, .stat-card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.sidebar-link {
+  animation: slideIn 0.4s ease-out;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 991.98px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* ===== SCROLL BARS ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--psiqui-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--psiqui-gradient-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--psiqui-secondary);
+}
+
+/* ===== HOVER EFFECTS FOR CARDS ===== */
+.hover-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Icon circles for categories */
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}

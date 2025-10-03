@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetas Médicas - PsiquiApp</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/bootstrap-custom-psiqui.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light d-lg-none me-2" type="button" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="fas fa-brain me-2"></i>
+                PsiquiApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%234A7C59'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E" class="rounded-circle me-2" alt="Doctor Avatar" id="doctorAvatar">
+                            <span id="doctorName" class="d-none d-sm-inline">Dr. Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar bg-white shadow-sm">
+                <div class="sidebar-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th-list me-2" aria-hidden="true"></i>
+                        MENÚ PRINCIPAL
+                    </h5>
+                </div>
+                <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <i class="fas fa-th-large sidebar-icon"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="pacientes.html" class="sidebar-link">
+                        <i class="fas fa-users sidebar-icon"></i>
+                        Pacientes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="consultas.html" class="sidebar-link">
+                        <i class="fas fa-notes-medical sidebar-icon"></i>
+                        Consultas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="recetas.html" class="sidebar-link active">
+                        <i class="fas fa-prescription-bottle-alt sidebar-icon"></i>
+                        Recetas Médicas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="dsm5.html" class="sidebar-link">
+                        <i class="fas fa-book sidebar-icon"></i>
+                        Guía DSM-5
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="cie10.html" class="sidebar-link">
+                        <i class="fas fa-clipboard-list sidebar-icon"></i>
+                        CIE-10
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tests.html" class="sidebar-link">
+                        <i class="fas fa-clipboard-check sidebar-icon"></i>
+                        Test Psicométricos
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 main-content">
+            <div class="container-fluid">
+            <!-- Suspended Account Warning -->
+            <div id="suspendedWarning" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+                <h4 class="alert-heading">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Cuenta Suspendida - Modo Solo Lectura
+                </h4>
+                <p class="mb-0">
+                    Su cuenta ha sido suspendida por el administrador. Puede visualizar toda la información 
+                    pero no podrá realizar modificaciones, agregar o eliminar datos. 
+                    Contacte al administrador para más información.
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!-- Page Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="page-title">
+                        <i class="fas fa-prescription-bottle-alt text-primary mr-3"></i>
+                        Recetas Médicas
+                    </h1>
+                    <p class="text-muted">Gestiona las prescripciones y medicamentos para pacientes</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-primary" id="newPrescriptionBtn" onclick="showAddPrescriptionModal()">
+                            <i class="fas fa-plus mr-2"></i>
+                            Nueva Receta
+                        </button>
+                        <button class="btn btn-outline-info" id="manageMedicationsBtn" onclick="showMedicationsModal()">
+                            <i class="fas fa-pills mr-2"></i>
+                            Gestionar Medicamentos
+                        </button>
+                        <button class="btn btn-outline-secondary" id="exportPrescriptionsBtn" onclick="exportPrescriptions()">
+                            <i class="fas fa-download mr-2"></i>
+                            Exportar
+                        </button>
+                        <button class="btn btn-outline-success" onclick="refreshPrescriptions()">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Row -->
+            <div class="row mb-4">
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="searchPrescriptions" placeholder="Buscar recetas...">
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <select class="form-control" id="filterPatient">
+                        <option value="">Todos los pacientes</option>
+                        <!-- Options will be loaded dynamically -->
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <select class="form-control" id="filterStatus">
+                        <option value="">Todos los estados</option>
+                        <option value="activa">Activa</option>
+                        <option value="completada">Completada</option>
+                        <option value="cancelada">Cancelada</option>
+                        <option value="vencida">Vencida</option>
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <input type="date" class="form-control" id="filterDate" placeholder="Fecha">
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-outline-secondary btn-block" onclick="clearFilters()">
+                        <i class="fas fa-eraser"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Prescriptions Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light border-bottom">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-list mr-2"></i>
+                                Lista de Recetas Médicas
+                            </h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Paciente</th>
+                                            <th scope="col">Medicamento</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="prescriptionsTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="sr-only">Cargando...</span>
+                                                </div>
+                                                <p class="mt-2 mb-0 text-muted">Cargando recetas...</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center" id="prescriptionsPagination">
+                            <!-- Pagination will be generated dynamically -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Prescription Modal -->
+    <div class="modal fade" id="addPrescriptionModal" tabindex="-1" role="dialog" aria-labelledby="addPrescriptionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="addPrescriptionModalLabel">
+                        <i class="fas fa-prescription-bottle-alt mr-2"></i>
+                        Nueva Receta Médica
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPrescriptionForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="prescriptionPatient">Paciente *</label>
+                                    <select class="form-control" id="prescriptionPatient" required>
+                                        <option value="">Seleccionar paciente...</option>
+                                        <!-- Options will be loaded dynamically -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="prescriptionDate">Fecha de Prescripción *</label>
+                                    <input type="date" class="form-control" id="prescriptionDate" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="prescriptionMedication">Medicamento *</label>
+                                    <input type="text" class="form-control" id="prescriptionMedication" required placeholder="Nombre del medicamento">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="prescriptionDosis">Dosis *</label>
+                                    <input type="text" class="form-control" id="prescriptionDosis" required placeholder="ej: 10mg">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="prescriptionFrecuencia">Frecuencia *</label>
+                                    <select class="form-control" id="prescriptionFrecuencia" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="1 vez al día">1 vez al día</option>
+                                        <option value="2 veces al día">2 veces al día</option>
+                                        <option value="3 veces al día">3 veces al día</option>
+                                        <option value="Cada 8 horas">Cada 8 horas</option>
+                                        <option value="Cada 12 horas">Cada 12 horas</option>
+                                        <option value="Según necesidad">Según necesidad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="prescriptionDuracion">Duración (días)</label>
+                                    <input type="number" class="form-control" id="prescriptionDuracion" min="1" max="365" placeholder="ej: 30">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="prescriptionCantidad">Cantidad</label>
+                                    <input type="text" class="form-control" id="prescriptionCantidad" placeholder="ej: 30 tabletas">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="prescriptionStatus">Estado</label>
+                                    <select class="form-control" id="prescriptionStatus">
+                                        <option value="activa">Activa</option>
+                                        <option value="completada">Completada</option>
+                                        <option value="cancelada">Cancelada</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prescriptionInstrucciones">Instrucciones de Uso</label>
+                            <textarea class="form-control" id="prescriptionInstrucciones" rows="3" placeholder="Instrucciones detalladas para el paciente..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="prescriptionNotas">Notas Adicionales</label>
+                            <textarea class="form-control" id="prescriptionNotas" rows="2" placeholder="Observaciones adicionales..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="savePrescription()">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar Receta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap 5 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/recetas.js?v=4.1.2"></script>
+    
+    <script>
+        // ⚠️ NOTA: Variables globales (prescriptionsData, patientsData, medicationsData, currentPage, itemsPerPage, filteredPrescriptions)
+        // están declaradas en recetas.js - NO redeclararlas aquí
+        // recetas.js carga datos reales desde la API y actualiza estas variables automáticamente
+
+        // Suspended user flag
+        let isSuspended = false;
+
+        // Check if user is suspended
+        async function checkSuspendedStatus() {
+            try {
+                const response = await fetch('/api/doctor/profile', {
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const doctor = data.doctor || data;
+                    
+                    // Check if suspended
+                    isSuspended = doctor.suspended || (doctor.activo === false && !doctor.is_admin);
+                    
+                    if (isSuspended) {
+                        showSuspendedWarning();
+                        disableModificationButtons();
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking suspended status:', error);
+            }
+        }
+
+        // Show suspended warning banner
+        function showSuspendedWarning() {
+            const warning = document.getElementById('suspendedWarning');
+            if (warning) {
+                warning.style.display = 'block';
+            }
+        }
+
+        // Disable modification buttons for suspended users
+        function disableModificationButtons() {
+            const newPrescriptionBtn = document.getElementById('newPrescriptionBtn');
+            if (newPrescriptionBtn) {
+                newPrescriptionBtn.disabled = true;
+                newPrescriptionBtn.title = 'Función deshabilitada - Cuenta suspendida';
+                newPrescriptionBtn.classList.add('disabled');
+            }
+
+            const manageMedicationsBtn = document.getElementById('manageMedicationsBtn');
+            if (manageMedicationsBtn) {
+                manageMedicationsBtn.disabled = true;
+                manageMedicationsBtn.title = 'Función deshabilitada - Cuenta suspendida';
+                manageMedicationsBtn.classList.add('disabled');
+            }
+
+            const exportBtn = document.getElementById('exportPrescriptionsBtn');
+            if (exportBtn) {
+                exportBtn.disabled = true;
+                exportBtn.title = 'Función deshabilitada - Cuenta suspendida';
+                exportBtn.classList.add('disabled');
+            }
+        }
+
+        // Show Add Prescription Modal
+        function showAddPrescriptionModal() {
+            const modal = new bootstrap.Modal(document.getElementById('addPrescriptionModal'));
+            if (document.getElementById('addPrescriptionForm')) {
+                document.getElementById('addPrescriptionForm').reset();
+            }
+            loadPatientsDropdown();
+            loadMedicationsDropdown();
+            modal.show();
+        }
+
+        // Show Medications Modal
+        function showMedicationsModal() {
+            const modal = new bootstrap.Modal(document.getElementById('medicationsModal'));
+            loadMedicationsList();
+            modal.show();
+        }
+
+        // Export Prescriptions
+        function exportPrescriptions() {
+            if (prescriptionsData.length === 0) {
+                alert('No hay recetas para exportar');
+                return;
+            }
+
+            const csvContent = generatePrescriptionsCSV(prescriptionsData);
+            downloadCSV(csvContent, 'recetas.csv');
+            showAlert('Recetas exportadas exitosamente', 'success');
+        }
+
+        // Generate CSV content for prescriptions
+        function generatePrescriptionsCSV(data) {
+            const headers = ['ID', 'Paciente', 'Medicamento', 'Dosis', 'Frecuencia', 'Duración', 'Estado', 'Fecha Prescripción'];
+            const csvRows = [headers.join(',')];
+            
+            data.forEach(prescription => {
+                const patient = patientsData.find(p => p.id === prescription.patientId);
+                const patientName = patient ? `${patient.name} ${patient.lastName}` : 'Paciente desconocido';
+                const medication = medicationsData.find(m => m.id === prescription.medicationId);
+                const medicationName = medication ? medication.name : 'Medicamento desconocido';
+                
+                const row = [
+                    prescription.id,
+                    patientName,
+                    medicationName,
+                    prescription.dosage || '',
+                    prescription.frequency || '',
+                    prescription.duration || '',
+                    prescription.status,
+                    prescription.prescriptionDate || ''
+                ];
+                csvRows.push(row.map(cell => `"${cell}"`).join(','));
+            });
+            
+            return csvRows.join('\\n');
+        }
+
+        // Download CSV file
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Refresh Prescriptions
+        function refreshPrescriptions() {
+            loadPrescriptionsData();
+            renderPrescriptionsTable();
+            showAlert('Datos actualizados', 'info');
+        }
+
+        // Clear Filters
+        function clearFilters() {
+            document.getElementById('searchPrescriptions').value = '';
+            document.getElementById('filterPatient').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterDate').value = '';
+            filterPrescriptions();
+            showAlert('Filtros limpiados', 'info');
+        }
+
+        // Load prescriptions data
+        function loadPrescriptionsData() {
+            const stored = localStorage.getItem('prescriptionsData');
+            if (stored) {
+                prescriptionsData = JSON.parse(stored);
+            } else {
+                // Generate sample data if none exists
+                prescriptionsData = generateSamplePrescriptions();
+                localStorage.setItem('prescriptionsData', JSON.stringify(prescriptionsData));
+            }
+            filteredPrescriptions = [...prescriptionsData];
+        }
+
+        // Load patients data
+        function loadPatientsData() {
+            const stored = localStorage.getItem('patientsData');
+            if (stored) {
+                patientsData = JSON.parse(stored);
+            } else {
+                patientsData = [
+                    { id: 1, name: 'Juan', lastName: 'Pérez García' },
+                    { id: 2, name: 'María', lastName: 'González López' },
+                    { id: 3, name: 'Carlos', lastName: 'Martínez Ruiz' }
+                ];
+            }
+        }
+
+        // Load medications data
+        function loadMedicationsData() {
+            const stored = localStorage.getItem('medicationsData');
+            if (stored) {
+                medicationsData = JSON.parse(stored);
+            } else {
+                medicationsData = generateSampleMedications();
+                localStorage.setItem('medicationsData', JSON.stringify(medicationsData));
+            }
+        }
+
+        // Generate sample medications
+        function generateSampleMedications() {
+            return [
+                { id: 1, name: 'Fluoxetina', type: 'Antidepresivo', dosage: '20mg', category: 'Psiquiátrico' },
+                { id: 2, name: 'Lorazepam', type: 'Ansiolítico', dosage: '1mg', category: 'Psiquiátrico' },
+                { id: 3, name: 'Quetiapina', type: 'Antipsicótico', dosage: '25mg', category: 'Psiquiátrico' },
+                { id: 4, name: 'Sertralina', type: 'Antidepresivo', dosage: '50mg', category: 'Psiquiátrico' },
+                { id: 5, name: 'Alprazolam', type: 'Ansiolítico', dosage: '0.5mg', category: 'Psiquiátrico' },
+                { id: 6, name: 'Risperidona', type: 'Antipsicótico', dosage: '2mg', category: 'Psiquiátrico' }
+            ];
+        }
+
+        // Generate sample prescriptions
+        function generateSamplePrescriptions() {
+            return [
+                {
+                    id: 1,
+                    patientId: 1,
+                    medicationId: 1,
+                    dosage: '20mg',
+                    frequency: '1 vez al día',
+                    duration: '30 días',
+                    status: 'activa',
+                    prescriptionDate: '2025-09-30',
+                    notes: 'Tomar por la mañana con el desayuno',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    patientId: 2,
+                    medicationId: 2,
+                    dosage: '1mg',
+                    frequency: '2 veces al día',
+                    duration: '15 días',
+                    status: 'completada',
+                    prescriptionDate: '2025-09-15',
+                    notes: 'En caso de ansiedad severa',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    patientId: 3,
+                    medicationId: 4,
+                    dosage: '50mg',
+                    frequency: '1 vez al día',
+                    duration: '60 días',
+                    status: 'vencida',
+                    prescriptionDate: '2025-08-01',
+                    notes: 'Revisar efectos secundarios',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+        }
+
+        // Load patients dropdown
+        function loadPatientsDropdown() {
+            const filterSelect = document.getElementById('filterPatient');
+            const addSelect = document.getElementById('prescriptionPatient');
+            
+            const options = patientsData.map(patient => 
+                `<option value="${patient.id}">${patient.name} ${patient.lastName}</option>`
+            ).join('');
+            
+            if (filterSelect) {
+                filterSelect.innerHTML = '<option value="">Todos los pacientes</option>' + options;
+            }
+            if (addSelect) {
+                addSelect.innerHTML = '<option value="">Seleccionar paciente...</option>' + options;
+            }
+        }
+
+        // Load medications dropdown
+        function loadMedicationsDropdown() {
+            const addSelect = document.getElementById('prescriptionMedication');
+            
+            if (addSelect) {
+                const options = medicationsData.map(medication => 
+                    `<option value="${medication.id}">${medication.name} (${medication.dosage})</option>`
+                ).join('');
+                addSelect.innerHTML = '<option value="">Seleccionar medicamento...</option>' + options;
+            }
+        }
+
+        // Load medications list for management
+        function loadMedicationsList() {
+            const container = document.getElementById('medicationsList');
+            if (!container) return;
+            
+            container.innerHTML = medicationsData.map(medication => `
+                <div class="medication-item border p-3 mb-2 rounded">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">${medication.name}</h6>
+                            <small class="text-muted">${medication.type} - ${medication.dosage}</small>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-warning" onclick="editMedication(${medication.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteMedication(${medication.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render prescriptions table
+        function renderPrescriptionsTable() {
+            const tbody = document.getElementById('prescriptionsTableBody');
+            
+            if (!tbody) {
+                // Create table if it doesn't exist
+                const tableContainer = document.querySelector('.table-responsive');
+                if (tableContainer) {
+                    tableContainer.innerHTML = `
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Paciente</th>
+                                    <th>Medicamento</th>
+                                    <th>Dosis</th>
+                                    <th>Frecuencia</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prescriptionsTableBody"></tbody>
+                        </table>
+                    `;
+                }
+                return renderPrescriptionsTable(); // Recursive call after creating table
+            }
+            
+            if (filteredPrescriptions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <i class="fas fa-prescription-bottle-alt fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No se encontraron recetas</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedPrescriptions = filteredPrescriptions.slice(start, end);
+
+            tbody.innerHTML = paginatedPrescriptions.map(prescription => {
+                const patient = patientsData.find(p => p.id === prescription.patientId);
+                const patientName = patient ? `${patient.name} ${patient.lastName}` : 'Paciente desconocido';
+                const medication = medicationsData.find(m => m.id === prescription.medicationId);
+                const medicationName = medication ? medication.name : 'Medicamento desconocido';
+                
+                return `
+                    <tr>
+                        <td><strong>#${prescription.id}</strong></td>
+                        <td>${patientName}</td>
+                        <td>${medicationName}</td>
+                        <td>${prescription.dosage || 'No especificado'}</td>
+                        <td>${prescription.frequency || 'No especificado'}</td>
+                        <td>
+                            <span class="badge badge-${getStatusClass(prescription.status)}">
+                                ${prescription.status}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewPrescription(${prescription.id})" title="Ver">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning" onclick="editPrescription(${prescription.id})" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePrescription(${prescription.id})" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            renderPagination();
+        }
+
+        // Get status badge class
+        function getStatusClass(status) {
+            switch(status) {
+                case 'activa': return 'success';
+                case 'completada': return 'primary';
+                case 'cancelada': return 'danger';
+                case 'vencida': return 'warning';
+                default: return 'secondary';
+            }
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredPrescriptions.length / itemsPerPage);
+            const pagination = document.getElementById('prescriptionsPagination');
+            
+            if (!pagination || totalPages <= 1) return;
+
+            let paginationHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                    </li>
+                `;
+            }
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredPrescriptions.length / itemsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderPrescriptionsTable();
+            }
+        }
+
+        // ⚠️ NOTA: Las funciones viewPrescription, editPrescription y deletePrescription
+        // están definidas en recetas.js con la estructura correcta de la base de datos.
+        // NO redefinirlas aquí para evitar conflictos.
+        
+        /* FUNCIONES COMENTADAS - Usar las de recetas.js
+        function viewPrescription(id) {
+            const prescription = prescriptionsData.find(p => p.id === id);
+            const patient = patientsData.find(p => p.id === prescription.patientId);
+            const medication = medicationsData.find(m => m.id === prescription.medicationId);
+            
+            const patientName = patient ? `${patient.name} ${patient.lastName}` : 'Paciente desconocido';
+            const medicationName = medication ? medication.name : 'Medicamento desconocido';
+            
+            if (prescription) {
+                alert(`Detalles de la receta...`);
+            }
+        }
+
+        function editPrescription(id) {
+            const prescription = prescriptionsData.find(p => p.id === id);
+            if (prescription) {
+                alert('Funcionalidad de edición disponible. Receta ID: ' + id);
+            }
+        }
+
+        function deletePrescription(id) {
+            if (confirm('¿Está seguro de que desea eliminar esta receta?')) {
+                prescriptionsData = prescriptionsData.filter(p => p.id !== id);
+                localStorage.setItem('prescriptionsData', JSON.stringify(prescriptionsData));
+                refreshPrescriptions();
+                showAlert('Receta eliminada exitosamente', 'warning');
+            }
+        }
+        */
+
+        // Medication actions
+        function editMedication(id) {
+            const medication = medicationsData.find(m => m.id === id);
+            if (medication) {
+                alert(`Editar medicamento: ${medication.name}\\nFuncionalidad disponible en versión completa.`);
+            }
+        }
+
+        function deleteMedication(id) {
+            if (confirm('¿Está seguro de que desea eliminar este medicamento?')) {
+                medicationsData = medicationsData.filter(m => m.id !== id);
+                localStorage.setItem('medicationsData', JSON.stringify(medicationsData));
+                loadMedicationsList();
+                showAlert('Medicamento eliminado exitosamente', 'warning');
+            }
+        }
+
+        // Search and filter functionality
+        function initializeFilters() {
+            const searchInput = document.getElementById('searchPrescriptions');
+            const patientFilter = document.getElementById('filterPatient');
+            const statusFilter = document.getElementById('filterStatus');
+            const dateFilter = document.getElementById('filterDate');
+
+            if (searchInput) searchInput.addEventListener('input', filterPrescriptions);
+            if (patientFilter) patientFilter.addEventListener('change', filterPrescriptions);
+            if (statusFilter) statusFilter.addEventListener('change', filterPrescriptions);
+            if (dateFilter) dateFilter.addEventListener('change', filterPrescriptions);
+        }
+
+        function filterPrescriptions() {
+            const searchTerm = document.getElementById('searchPrescriptions')?.value.toLowerCase() || '';
+            const patientFilter = document.getElementById('filterPatient')?.value || '';
+            const statusFilter = document.getElementById('filterStatus')?.value || '';
+            const dateFilter = document.getElementById('filterDate')?.value || '';
+
+            filteredPrescriptions = prescriptionsData.filter(prescription => {
+                const patient = patientsData.find(p => p.id === prescription.patientId);
+                const medication = medicationsData.find(m => m.id === prescription.medicationId);
+                const patientName = patient ? `${patient.name} ${patient.lastName}`.toLowerCase() : '';
+                const medicationName = medication ? medication.name.toLowerCase() : '';
+                
+                const matchesSearch = !searchTerm || 
+                    patientName.includes(searchTerm) ||
+                    medicationName.includes(searchTerm) ||
+                    prescription.id.toString().includes(searchTerm);
+
+                const matchesPatient = !patientFilter || prescription.patientId.toString() === patientFilter;
+                const matchesStatus = !statusFilter || prescription.status === statusFilter;
+                const matchesDate = !dateFilter || prescription.prescriptionDate === dateFilter;
+
+                return matchesSearch && matchesPatient && matchesStatus && matchesDate;
+            });
+
+            currentPage = 1;
+            renderPrescriptionsTable();
+        }
+
+        // Show alert messages
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSuspendedStatus();
+            loadPatientsData();
+            loadMedicationsData();
+            loadPrescriptionsData();
+            loadPatientsDropdown();
+            renderPrescriptionsTable();
+            initializeFilters();
+        });
+    </script>
+</body>
+</html>

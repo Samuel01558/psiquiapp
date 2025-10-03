@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Usuarios - PsiquiApp</title>
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-custom-psiqui.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light d-lg-none me-2" type="button" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="fas fa-brain me-2"></i>
+                PsiquiApp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%23DC3545'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%23ffffff'%3EAD%3C/text%3E%3C/svg%3E" class="rounded-circle me-2" alt="Admin Avatar">
+                            <span id="doctorName" class="d-none d-sm-inline">Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar bg-white shadow-sm">
+                <div class="sidebar-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th-list me-2"></i>
+                        MENÚ PRINCIPAL
+                    </h5>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large sidebar-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="admin.html" class="sidebar-link active">
+                            <i class="fas fa-user-shield sidebar-icon"></i>
+                            Administración
+                        </a>
+                    </li>
+                    <li class="sidebar-divider"></li>
+                    <li class="sidebar-item">
+                        <a href="pacientes.html" class="sidebar-link">
+                            <i class="fas fa-users sidebar-icon"></i>
+                            Pacientes
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="consultas.html" class="sidebar-link">
+                            <i class="fas fa-notes-medical sidebar-icon"></i>
+                            Consultas
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="recetas.html" class="sidebar-link">
+                            <i class="fas fa-prescription-bottle-alt sidebar-icon"></i>
+                            Recetas Médicas
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h2 class="page-title">
+                        <i class="fas fa-user-shield"></i>
+                        Administración de Usuarios
+                    </h2>
+                    <p class="text-muted">Gestiona las cuentas de doctores del sistema</p>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="page-actions mb-4">
+                    <button class="btn btn-primary" onclick="showAddDoctorModal()">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Agregar Doctor
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="loadDoctors()">
+                        <i class="fas fa-sync-alt me-2"></i>
+                        Actualizar
+                    </button>
+                </div>
+
+                <!-- Doctors List -->
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-md me-2"></i>
+                            Lista de Doctores
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Email</th>
+                                        <th>Especialidad</th>
+                                        <th>Teléfono</th>
+                                        <th>Estado</th>
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doctorsTableBody">
+                                    <tr>
+                                        <td colspan="8" class="text-center py-4">
+                                            <i class="fas fa-spinner fa-spin fa-2x text-muted mb-3"></i>
+                                            <p class="text-muted mb-0">Cargando doctores...</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Doctor Modal -->
+    <div class="modal fade" id="addDoctorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Agregar Nuevo Doctor
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDoctorForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="newNombre" class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" id="newNombre" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="newApellido" class="form-label">Apellido *</label>
+                                <input type="text" class="form-control" id="newApellido" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="newEmail" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="newEmail" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="newPassword" class="form-label">Contraseña *</label>
+                                <input type="password" class="form-control" id="newPassword" required minlength="6">
+                                <small class="text-muted">Mínimo 6 caracteres</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="newEspecialidad" class="form-label">Especialidad *</label>
+                                <select class="form-select" id="newEspecialidad" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Psiquiatría">Psiquiatría</option>
+                                    <option value="Psiquiatría Infantil">Psiquiatría Infantil</option>
+                                    <option value="Psiquiatría Geriátrica">Psiquiatría Geriátrica</option>
+                                    <option value="Psicología Clínica">Psicología Clínica</option>
+                                    <option value="Neuropsiquiatría">Neuropsiquiatría</option>
+                                    <option value="Otra">Otra</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="newTelefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="newTelefono">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newNumeroLicencia" class="form-label">Número de Licencia</label>
+                            <input type="text" class="form-control" id="newNumeroLicencia">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newDireccion" class="form-label">Dirección del Consultorio</label>
+                            <input type="text" class="form-control" id="newDireccion">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="newActivo" checked>
+                            <label class="form-check-label" for="newActivo">
+                                Cuenta activa
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveNewDoctor()">
+                        <i class="fas fa-save me-2"></i>
+                        Guardar Doctor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong class="me-auto">Notificación</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                Mensaje aquí
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Check if user is admin
+        async function checkAdminAccess() {
+            try {
+                const response = await fetch('/api/doctor/profile', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    window.location.href = 'login.html';
+                    return false;
+                }
+
+                const data = await response.json();
+                if (!data.success || !data.doctor.is_admin) {
+                    showToast('Acceso denegado. Solo administradores pueden acceder.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                    return false;
+                }
+
+                document.getElementById('doctorName').textContent = `${data.doctor.nombre} ${data.doctor.apellido}`;
+                return true;
+            } catch (error) {
+                console.error('Error:', error);
+                window.location.href = 'login.html';
+                return false;
+            }
+        }
+
+        // Load all doctors
+        async function loadDoctors() {
+            try {
+                const response = await fetch('/api/admin/doctors', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) throw new Error('Error al cargar doctores');
+
+                const data = await response.json();
+                displayDoctors(data.doctors || []);
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al cargar la lista de doctores', 'error');
+            }
+        }
+
+        // Display doctors in table
+        function displayDoctors(doctors) {
+            const tbody = document.getElementById('doctorsTableBody');
+            tbody.innerHTML = '';
+
+            if (doctors.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <i class="fas fa-user-md fa-3x text-muted mb-3"></i>
+                            <p class="text-muted mb-0">No hay doctores registrados</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            doctors.forEach(doctor => {
+                const statusBadge = doctor.activo 
+                    ? '<span class="badge bg-success">Activo</span>'
+                    : '<span class="badge bg-warning text-dark">Suspendido</span>';
+                
+                const roleBadge = doctor.is_admin
+                    ? '<span class="badge bg-danger text-white">Administrador</span>'
+                    : '<span class="badge bg-info">Doctor</span>';
+
+                const isCurrentAdmin = doctor.is_admin;
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>#${doctor.id}</strong></td>
+                        <td>${doctor.nombre} ${doctor.apellido}</td>
+                        <td>${doctor.email}</td>
+                        <td>${doctor.especialidad || '-'}</td>
+                        <td>${doctor.telefono || '-'}</td>
+                        <td>${statusBadge}</td>
+                        <td>${roleBadge}</td>
+                        <td>
+                            ${!isCurrentAdmin ? `
+                                <div class="btn-group btn-group-sm" role="group">
+                                    ${doctor.activo ? `
+                                        <button class="btn btn-warning" onclick="toggleDoctorStatus(${doctor.id}, false)" title="Suspender">
+                                            <i class="fas fa-pause-circle me-1"></i>Suspender
+                                        </button>
+                                    ` : `
+                                        <button class="btn btn-success" onclick="toggleDoctorStatus(${doctor.id}, true)" title="Reactivar">
+                                            <i class="fas fa-play-circle me-1"></i>Reactivar
+                                        </button>
+                                    `}
+                                    <button class="btn btn-outline-primary" onclick="editDoctor(${doctor.id})" title="Ver Detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            ` : '<span class="text-muted"><i class="fas fa-shield-alt me-1"></i>Protegida</span>'}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Toggle doctor active status (suspend/reactivate)
+        async function toggleDoctorStatus(doctorId, activate) {
+            const action = activate ? 'reactivar' : 'suspender';
+            const message = activate 
+                ? '¿Reactivar esta cuenta? El doctor podrá volver a modificar datos.'
+                : '¿Suspender esta cuenta? El doctor solo podrá ver pero no modificar nada.';
+            if (!confirm(message)) return;
+
+            try {
+                const response = await fetch(`/api/admin/doctors/${doctorId}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ activo: activate })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showToast(`Cuenta ${activate ? 'reactivada' : 'suspendida'} exitosamente`, 'success');
+                    loadDoctors();
+                } else {
+                    showToast(result.message || 'Error al cambiar estado', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al cambiar estado de la cuenta', 'error');
+            }
+        }
+
+        // Show add doctor modal
+        function showAddDoctorModal() {
+            document.getElementById('addDoctorForm').reset();
+            const modal = new bootstrap.Modal(document.getElementById('addDoctorModal'));
+            modal.show();
+        }
+
+        // Save new doctor
+        async function saveNewDoctor() {
+            const formData = {
+                nombre: document.getElementById('newNombre').value.trim(),
+                apellido: document.getElementById('newApellido').value.trim(),
+                email: document.getElementById('newEmail').value.trim(),
+                password: document.getElementById('newPassword').value,
+                especialidad: document.getElementById('newEspecialidad').value,
+                telefono: document.getElementById('newTelefono').value.trim(),
+                numero_licencia: document.getElementById('newNumeroLicencia').value.trim(),
+                direccion: document.getElementById('newDireccion').value.trim(),
+                activo: document.getElementById('newActivo').checked
+            };
+
+            if (!formData.nombre || !formData.apellido || !formData.email || !formData.password) {
+                showToast('Complete todos los campos obligatorios', 'warning');
+                return;
+            }
+
+            if (formData.password.length < 6) {
+                showToast('La contraseña debe tener al menos 6 caracteres', 'warning');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/doctors', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showToast('Doctor agregado exitosamente', 'success');
+                    bootstrap.Modal.getInstance(document.getElementById('addDoctorModal')).hide();
+                    loadDoctors();
+                } else {
+                    showToast(result.message || 'Error al agregar doctor', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al crear la cuenta', 'error');
+            }
+        }
+
+        // View doctor details
+        function editDoctor(doctorId) {
+            showToast('Visualización de detalles próximamente', 'info');
+        }
+
+        function showToast(message, type = 'info') {
+            const toastEl = document.getElementById('notificationToast');
+            const toastBody = document.getElementById('toastMessage');
+            const toast = new bootstrap.Toast(toastEl);
+            
+            toastBody.textContent = message;
+            
+            toastEl.classList.remove('bg-success', 'bg-danger', 'bg-info', 'bg-warning');
+            if (type === 'success') toastEl.classList.add('bg-success', 'text-white');
+            else if (type === 'error') toastEl.classList.add('bg-danger', 'text-white');
+            else if (type === 'warning') toastEl.classList.add('bg-warning');
+            else toastEl.classList.add('bg-info', 'text-white');
+            
+            toast.show();
+        }
+
+        // Sidebar toggle
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('show');
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            const hasAccess = await checkAdminAccess();
+            if (hasAccess) {
+                loadDoctors();
+            }
+        });
+    </script>
+</body>
+</html>
