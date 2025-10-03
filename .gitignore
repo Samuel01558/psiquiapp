@@ -218,3 +218,7 @@ button-tests/
 # WORKSPACE YAML
 # ============================================
 pnpm-workspace.yaml
+# Ignorar archivos finales y listas de eliminación
+COMANDOS_FINALES_GIT.md
+archivos-a-eliminar.txt
+INSTRUCCIONES_DOCUMENTO_FINAL.md
